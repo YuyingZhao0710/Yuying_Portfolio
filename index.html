@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YuyingZhao — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --bg2: #EDEAE3;
+    --text: #1A1915;
+    --text2: #6B6860;
+    --text3: #A8A59F;
+    --border: rgba(26,25,21,0.10);
+    --border2: rgba(26,25,21,0.20);
+    --blue: #E6F1FB;
+    --green: #E1F5EE;
+    --amber: #FAEEDA;
+    --pink: #FBEAF0;
+    --purple: #EEEDFE;
+    --coral: #FAECE7;
+    --amber-dark: #C89A3C;
+    --purple-dark: #7B78D8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Space Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+
+  /* HEADER */
+  header {
+    padding: 2rem 0 0;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 3.5rem;
+    position: sticky;
+    top: 0;
+    background: rgba(247,245,240,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+  }
+
+  .site-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+  }
+
+  .header-nav { display: flex; gap: 1.75rem; }
+  .header-nav a {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s;
+    position: relative;
+  }
+  .header-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 0.5px;
+    background: var(--text);
+    transition: width 0.2s;
+  }
+  .header-nav a:hover { color: var(--text); }
+  .header-nav a:hover::after { width: 100%; }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active {
+    display: block;
+    animation: fadeUp 0.25s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HERO */
+  .hero { margin-bottom: 3.5rem; padding-top: 0.5rem; }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(42px, 7vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero-line {
+    width: 32px;
+    height: 0.5px;
+    background: var(--text3);
+    margin: 1.5rem 0;
+  }
+
+  .hero-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 2;
+    max-width: 400px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 1.25rem;
+  }
+
+  /* CAT GRID */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    gap: 8px;
+    margin-bottom: 5rem;
+  }
+
+  .cat-card {
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .cat-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+  }
+
+  .cat-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    margin-bottom: 2px;
+  }
+
+  .cat-meta { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+  .cat-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
+  .cat-subtitle { font-size: 11px; color: var(--text2); line-height: 1.6; }
+  .cat-count { font-size: 11px; color: var(--text3); margin-top: auto; }
+
+  /* FEATURED CARD */
+  .cat-card.featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem;
+    background: var(--text);
+    border-color: var(--text);
+    border-radius: 6px;
+  }
+
+  .cat-card.featured:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    transform: translateY(-2px);
+  }
+
+  .cat-card.featured .cat-meta { color: rgba(255,255,255,.35); }
+  .cat-card.featured .cat-title { font-size: 19px; color: #fff; }
+  .cat-card.featured .cat-subtitle { color: rgba(255,255,255,.55); }
+  .cat-card.featured .cat-count { color: rgba(255,255,255,.35); }
+  .cat-card.featured .cat-icon-wrap {
+    background: rgba(255,255,255,.08);
+    font-size: 24px;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .featured-text { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text3);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb span { cursor: pointer; transition: color 0.12s; }
+  .breadcrumb span:hover { color: var(--text); }
+  .breadcrumb .sep { color: var(--border2); cursor: default; }
+  .breadcrumb .current { color: var(--text2); cursor: default; }
+
+  /* LIST HEADER */
+  .list-header { margin-bottom: 2rem; }
+
+  .list-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 0.5px solid var(--border2);
+    border-radius: 100px;
+    color: var(--text2);
+    margin-bottom: 10px;
+  }
+
+  .list-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+
+  .list-desc { font-size: 12px; color: var(--text2); line-height: 1.8; }
+
+  /* WORK LIST */
+  .work-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4rem; }
+
+  .work-item {
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 5px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .work-item:hover {
+    border-color: var(--border2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .work-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .work-info { flex: 1; min-width: 0; }
+  .work-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
+  .work-title { font-family: 'Noto Serif TC', serif; font-size: 15px; color: var(--text); }
+  .work-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+  .work-arrow { color: var(--text3); font-size: 18px; flex-shrink: 0; }
+
+  /* SUBPROJECT */
+  .subproject-card {
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .subproject-card:hover {
+    border-color: var(--border2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .subproject-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .subproject-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .subproject-info { flex: 1; }
+  .subproject-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
+  .subproject-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
+  .subproject-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+
+  /* DETAIL */
+  .detail-cover {
+    width: 100%;
+    height: 180px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+  .detail-title { font-family: 'Noto Serif TC', serif; font-size: 25px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; letter-spacing: -0.3px; }
+
+  .detail-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  hr.dv { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
+
+  .detail-body { font-size: 13px; line-height: 1.95; margin-bottom: 1rem; color: var(--text); }
+  .detail-body p { margin-bottom: 0.75rem; color: var(--text2); }
+  .detail-body strong { font-weight: 700; color: var(--text); }
+
+  .section-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+
+  /* CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 1rem 0; }
+
+  .chip {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border: 0.5px solid var(--border2);
+    border-radius: 100px;
+    color: var(--text2);
+  }
+
+  /* SERIES */
+  .series-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.5rem; }
+
+  .series-item {
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .series-num { font-size: 10px; color: var(--text3); width: 24px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .series-title { color: var(--text); flex: 1; font-family: 'Noto Serif TC', serif; }
+
+  /* IMG GRID */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 7px;
+    margin-bottom: 1.5rem;
+  }
+
+  .img-slot {
+    height: 110px;
+    border-radius: 4px;
+    border: 0.5px dashed var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg2);
+    flex-direction: column;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+  }
+
+  /* ABOUT */
+  .about-block { max-width: 520px; margin-bottom: 4rem; }
+
+  .about-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.3px;
+  }
+
+  .about-text { font-size: 13px; color: var(--text2); line-height: 1.95; margin-bottom: 1rem; }
+
+  .about-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; }
+
+  .about-tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 0.5px solid var(--border2);
+    border-radius: 100px;
+    color: var(--text2);
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 10px; margin-top: 1.25rem; }
+
+  .contact-link {
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .contact-link:hover { color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 1.5rem 0;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text3);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+
+  /* LIGHTBOX */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,8,0.94);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #lb-img {
+    max-width: 90vw;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .lb-controls {
+    margin-top: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .lb-btn {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .lb-btn:hover { background: rgba(255,255,255,0.22); }
+
+  #lb-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .lb-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.12s;
+  }
+
+  .lb-close:hover { color: #fff; }
+
+  /* RESPONSIVE */
+  @media (max-width: 560px) {
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .cat-card.featured { flex-direction: column; align-items: flex-start; }
+    .header-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+    header { padding: 1.25rem 0 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="header-inner">
+      <div class="site-name">YuyingZhao</div>
+      <nav class="header-nav">
+        <a onclick="goHome()">作品</a>
+        <a onclick="goAbout()">關於</a>
+        <a onclick="goContact()">聯絡</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="hero-eyebrow">Portfolio · 作品集</div>
+      <div class="hero-name">Yuying<br>Zhao</div>
+      <div class="hero-line"></div>
+      <div class="hero-desc">跨領域創作者，游移於平面設計、聲音、文字與空間之間，嘗試在不同媒介中找到共同的感知語言。</div>
+    </div>
+    <div class="section-label">Selected Works</div>
+    <div class="cat-grid">
+      <div class="cat-card featured" onclick="goShuyuan()">
+        <div class="cat-icon-wrap">⬡</div>
+        <div class="featured-text">
+          <div class="cat-meta">國立政治大學 · 新生書院</div>
+          <div class="cat-title">新生書院 Tutor</div>
+          <div class="cat-subtitle">帶領自主學習計畫，策劃課程、工作坊與期末展覽</div>
+          <div class="cat-count">異饗食堂 · 觀察者 — 112 · 113 學年度 →</div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="goList('design')">
+        <div class="cat-icon-wrap" style="background:var(--blue)">✦</div>
+        <div class="cat-meta">category 01</div>
+        <div class="cat-title">平面設計</div>
+        <div class="cat-count">新增中 →</div>
+      </div>
+      <div class="cat-card" onclick="goList('interview')">
+        <div class="cat-icon-wrap" style="background:var(--amber)">◎</div>
+        <div class="cat-meta">category 02</div>
+        <div class="cat-title">採訪</div>
+        <div class="cat-count">新增中 →</div>
+      </div>
+      <div class="cat-card" onclick="goList('audio')">
+        <div class="cat-icon-wrap" style="background:var(--pink)">♪</div>
+        <div class="cat-meta">category 03</div>
+        <div class="cat-title">聲音作品</div>
+        <div class="cat-count">新增中 →</div>
+      </div>
+      <div class="cat-card" onclick="goList('photo')">
+        <div class="cat-icon-wrap" style="background:var(--purple)">▣</div>
+        <div class="cat-meta">category 04</div>
+        <div class="cat-title">攝影</div>
+        <div class="cat-count">新增中 →</div>
+      </div>
+      <div class="cat-card" onclick="goList('curation')">
+        <div class="cat-icon-wrap" style="background:var(--coral)">◈</div>
+        <div class="cat-meta">category 05</div>
+        <div class="cat-title">策展與創作</div>
+        <div class="cat-count">新增中 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHUYUAN -->
+  <div class="screen" id="screen-shuyuan">
+    <div class="breadcrumb">
+      <span onclick="goHome()">首頁</span>
+      <span class="sep">/</span>
+      <span class="current">新生書院 Tutor</span>
+    </div>
+    <div class="list-header">
+      <div class="list-badge">國立政治大學 · 新生書院 · 112–113 學年度</div>
+      <div class="list-title">新生書院 Tutor</div>
+      <div class="list-desc">擔任政大新生書院自主學習計畫的 Tutor，負責設計課程架構、帶領每週活動、策劃工作坊與學期末成果展覽。112 學年度帶領「異饗食堂」，113 學年度帶領「觀察者」。</div>
+    </div>
+    <div class="subproject-card" onclick="goList('wonder')">
+      <div class="subproject-header">
+        <div class="subproject-icon" style="background:var(--amber)">⬡</div>
+        <div class="subproject-info">
+          <div class="subproject-tag">自主學習計畫 · 112 學年度</div>
+          <div class="subproject-title">異饗食堂</div>
+          <div class="subproject-brief">以餐廳為容器，結合烹飪、活動策劃與社群經營的飲食創作計畫</div>
+        </div>
+        <div class="work-arrow">›</div>
+      </div>
+    </div>
+    <div class="subproject-card" onclick="goList('observer')">
+      <div class="subproject-header">
+        <div class="subproject-icon" style="background:var(--purple)">◉</div>
+        <div class="subproject-info">
+          <div class="subproject-tag">自主學習計畫 · 113 學年度</div>
+          <div class="subproject-title">觀察者</div>
+          <div class="subproject-brief">以聲音與五感為核心的創作學習計畫，帶領成員從田野收集走向策展與裝置創作</div>
+        </div>
+        <div class="work-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="screen" id="screen-list">
+    <div class="breadcrumb" id="list-bc"></div>
+    <div class="list-header">
+      <div class="list-title" id="list-title"></div>
+      <div class="list-desc" id="list-desc"></div>
+    </div>
+    <div class="work-list" id="work-list"></div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="screen" id="screen-detail">
+    <div class="breadcrumb" id="detail-bc"></div>
+    <div id="detail-content"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="screen" id="screen-about">
+    <div class="breadcrumb">
+      <span onclick="goHome()">首頁</span>
+      <span class="sep">/</span>
+      <span class="current">關於</span>
+    </div>
+    <div class="about-block">
+      <div class="about-name">Yuying Zhao</div>
+      <div class="about-text">跨領域創作者，目前就讀國立政治大學，同時在平面設計、聲音創作、文字採訪與策展之間游移。</div>
+      <div class="about-text">相信不同媒介之間存在共同的感知邏輯，試圖透過創作尋找那條隱藏的線。</div>
+      <div class="about-tags">
+        <span class="about-tag">平面設計</span>
+        <span class="about-tag">聲音</span>
+        <span class="about-tag">採訪</span>
+        <span class="about-tag">策展</span>
+        <span class="about-tag">攝影</span>
+        <span class="about-tag">活動策劃</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="screen" id="screen-contact">
+    <div class="breadcrumb">
+      <span onclick="goHome()">首頁</span>
+      <span class="sep">/</span>
+      <span class="current">聯絡</span>
+    </div>
+    <div class="about-block">
+      <div class="list-title" style="margin-bottom:.5rem">聯絡我</div>
+      <div class="list-desc">歡迎合作提案、採訪邀約或任何交流。</div>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:your@email.com">✉ your@email.com</a>
+        <a class="contact-link" href="https://instagram.com/" target="_blank">◎ Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Yuying Zhao</span>
+    <span>跨領域創作者</span>
+  </footer>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="">
+  <div class="lb-controls">
+    <button class="lb-btn" onclick="event.stopPropagation();lbPrev()">‹</button>
+    <span id="lb-counter"></span>
+    <button class="lb-btn" onclick="event.stopPropagation();lbNext()">›</button>
+  </div>
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+</div>
+
+<script>
+const IMG = {};
+
+const CATS = {
+  wonder:   { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
+  observer: { title:'觀察者', desc:'以聲音為核心的自主學習計畫。帶領五位成員從認識聲音、田野錄音、聲音剪輯，走向期末策展與個人創作，同時設計並主持跨感官主題工作坊。', parent:'shuyuan' },
+  design:   { title:'平面設計', desc:'海報、品牌識別、排版等視覺設計作品。', parent:'home' },
+  interview:{ title:'採訪', desc:'文字與音頻採訪，記錄不同的生命故事。', parent:'home' },
+  audio:    { title:'聲音作品', desc:'Podcast、聲景紀錄與聲音裝置。', parent:'home' },
+  photo:    { title:'攝影', desc:'紀實、人像與概念攝影系列。', parent:'home' },
+  curation: { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
+};
+
+const WORKS = {
+  wonder: [
+    {
+      id:'w1', tag:'飲食創作', title:'秋季甜點企劃', brief:'以秋季食材為題的甜點餐盒，出餐 60 份以上',
+      bg:'var(--amber)', emoji:'⬡', year:'2023', role:'發想、烹飪、宣傳設計',
+      desc:`<p>以秋季常見食材作為創作主軸，企劃並製作一套完整的甜點餐盒，從選材發想到製作出餐全程負責。</p><p><strong>菜單：</strong>桂花糕、栗子酥、桂花蘋果乳酪塔、抹茶栗子磅蛋糕、田園雞肉咖哩飯。</p><p>共出餐 60 份以上，同步設計 IG 宣傳圖文進行推廣。</p>`,
+      chips:['菜單發想','烹飪製作','IG 視覺設計','出餐執行'],
+      imgs:[{src:'aut1',cap:'秋季甜點餐盒'},{src:'aut2',cap:'甜點製作過程'},{src:'aut3',cap:'抹茶栗子磅蛋糕備料'}]
+    },
+    {
+      id:'w2', tag:'系列推文', title:'異饗小廚房', brief:'每月廚藝研習的紀錄製作，整合攝影、食譜與文字',
+      bg:'var(--amber)', emoji:'⬡', year:'2023–2024', role:'企劃、攝影、文案、視覺設計',
+      desc:`<p>每個月成員各自練習一道料理，在製作期間與完成後進行完整紀錄，製作成系列 IG 推文。</p><p><strong>每篇推文包含：</strong>料理照片（美感構圖）、食譜步驟、製作心得與文字敘述。負責統籌整個系列的視覺風格與內容架構。</p>`,
+      chips:['企劃統籌','攝影','文案撰寫','IG 視覺'],
+      imgs:[{src:'ig1',cap:'異饗小廚房｜草莓季廚藝心得'},{src:'ig2',cap:'異饗小廚房第二集｜墨西哥玉米片'},{src:'ig3',cap:'異饗小廚房第四集｜上海生煎包'}]
+    },
+    {
+      id:'w3', tag:'主題活動', title:'茶料理企劃', brief:'走訪茶行，以不同茶種為靈感發展創意料理',
+      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'企劃、執行',
+      desc:`<p>帶領成員前往茶行實地參訪，聽取不同茶種的介紹與風味說明，回來後各自選用一種茶作為料理發想，實際製作成一系列茶料理。</p><p>從體驗設計到料理發想，整合了田野參訪與飲食創作的思維。</p>`,
+      chips:['活動規劃','田野參訪','料理創作'],
+      imgs:[{src:'tea1',cap:'茶料理成品'},{src:'tea2',cap:'料理製作過程'},{src:'tea3',cap:'活動紀錄'}]
+    },
+    {
+      id:'w4', tag:'跨界合作', title:'USR × 世界蜜蜂日', brief:'結合 520 世界蜜蜂日，與 USR 計畫合作的蜂蜜料理活動',
+      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'共同策劃、執行',
+      desc:`<p>與校內 USR 計畫合作，配合 520 世界蜜蜂日邀請講師進行蜜蜂與蜂蜜的知識分享，並以不同種類的蜂蜜為材料設計並製作多道蜂蜜料理，同時讓參與者品嚐比較不同蜂蜜的風味差異。</p><p>結合知識傳遞與飲食體驗，是異饗食堂與校外資源連結的代表活動。</p>`,
+      chips:['跨單位合作','活動策劃','飲食創作'],
+      imgs:[{src:'bee1',cap:'活動現場'},{src:'bee2',cap:'蜂蜜料理'},{src:'bee3',cap:'活動紀錄'}]
+    },
+    {
+      id:'w5', tag:'每週實作', title:'廚藝研習', brief:'每週成員自選料理實作，以當季食材為發想',
+      bg:'var(--amber)', emoji:'⬡', year:'2023–2025', role:'帶領、參與',
+      desc:`<p>異饗食堂每週固定的廚藝實作課程，成員自選有興趣的料理進行練習，有時配合當季食材發想，例如草莓季甜點、秋季根莖類料理等。</p><p>在實作過程中累積對食材、烹飪技法與擺盤美感的理解，也是「異饗小廚房」IG 系列的素材來源。</p>`,
+      chips:['烹飪實作','當季食材','技法練習'],
+      imgs:[{src:'kitch1',cap:'草莓季甜點塔'},{src:'kitch2',cap:'草莓瑞士卷'},{src:'kitch3',cap:'草莓奶油酥'}]
+    },
+  ],
+  observer: [
+    {
+      id:'o1', tag:'期末聲音策展', title:'《嚐聲》Déguster le Son', brief:'五人聯展，將聽覺轉譯為味覺體驗的沉浸式聲音裝置展',
+      bg:'var(--purple)', emoji:'◉', year:'2024', role:'策展人、創作者',
+      desc:`<p>觀察者 114 上學期期末成果展。以「聲音作為可被品嚐的物質」為核心概念，在政大山居學習中心藝廊展出五件聲音裝置與多媒材作品，展期一週。</p><p><strong>策展概念：</strong>聲音作為一種流動的物質，不可被擁有卻能被感知、被吞入——將聽覺視為味覺的延伸，每件作品皆是一道料理。</p><p><strong>觀展設計：</strong>入場附贈信封，內含花瓣（以花瓣詮釋作品風味）與空白菜單（以印章自由排列出屬於自己的《嚐聲》菜單），將觀展行為轉化為參與式體驗。</p><p><strong>負責事項：</strong>策展統籌、觀展說明書設計（含菜單、展品地圖）、IG 宣傳圖文、個人參展作品製作。</p>`,
+      chips:['策展統籌','觀展設計','文本撰寫','IG 宣傳','個人創作'],
+      series:[
+        {title:'放逐自然 — 趙于瑩（個人參展作品）'},
+        {title:'Minecraft is Music — 蔡聿謙'},
+        {title:"生成儀式 Eko-K'en — 陳鴻杰"},
+        {title:'聲之間 — 林思莉'},
+        {title:'SAI, BO · 足跡 — 王肇涵'},
+      ],
+      imgs:[]
+    },
+    {
+      id:'o2', tag:'個人創作', title:'放逐自然', brief:'接觸式麥克風擷取水滴聲響的跨媒介聲音裝置',
+      bg:'var(--purple)', emoji:'◉', year:'2024', role:'創作、製作',
+      desc:`<p>《嚐聲》展中的個人參展作品。探索光、水、線、自然與聲音之間的跨媒介關係，以接觸式麥克風呈現一個微型自然生態系統，再現下雨天的感官體驗。</p><p><strong>創作核心：</strong>探討人造物與「自然」的關係——當人造物被廢棄，是否就成為自然的一部分？</p><p><strong>技術：</strong>接觸式麥克風貼附於塑膠、金屬、玻璃等不同材質，擷取水滴落在線網與材質上的細微震動，透過耳機擴大器放大後傳至耳機，讓觀眾聆聽作品內部的微觀聲響。</p>`,
+      chips:['聲音裝置','接觸式麥克風','跨媒介','物件探索'],
+      imgs:[]
+    },
+    {
+      id:'o3', tag:'工作坊', title:'感官與敘事工作坊：氣味、書寫與記憶', brief:'以嗅覺為媒介，結合擴香石製作與自由書寫的兩週工作坊',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'企劃、主持',
+      desc:`<p>觀察者 114 下學期「五感」主題的工作坊，共兩週各 2.5 小時，10 人參與。</p><p><strong>核心概念：</strong>透過嗅覺作為記憶與情感的媒介，以書寫讓參與者梳理自己的情緒與記憶，調配出有故事性的記憶香氛，並製作擴香石作為氣味傳播的媒介。</p><p><strong>第一週：</strong>擴香石製作（石膏塑型、裝飾）＋自由書寫引導課程。</p><p><strong>第二週：</strong>氣味聯想活動（聞精油＋書寫＋分享）＋香氛噴霧調配教學，最後蒐集參與者的精油與故事作為期末成果展素材。</p>`,
+      chips:['工作坊設計','感官體驗','書寫引導','香氛製作'],
+      imgs:[]
+    },
+    {
+      id:'o4', tag:'田野踏查 · 聲景感知', title:'C-LAB 聲響藝術節：社子島《中陰洄游》', brief:'帶領觀察者成員以聆聽、記錄與漫遊的方式進行現地聲景感知',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'課程設計、帶領者',
+      desc:`<p>2025 年 10 月 31 日，帶領觀察者成員參與 C-LAB 聲響藝術節《中陰洄游》——一場結合地景徒步繞行、行為藝術、現場聲響演出與電影放映的戶外事件策展計畫，在社子島全程戶外發生。</p><p><strong>白天：</strong>以散步、聆聽、記錄的方式在社子島進行現地聲景感知，跟隨行為藝術家漫遊沙洲、河岸、工業區、民宅巷弄等不同質地的空間，藉由觀察自然聲、城市機械聲與人為聲音，理解聲音如何形塑空間氛圍。</p><p><strong>夜晚：</strong>於島頭公園欣賞《河鰻》現場聲響版演出，並觀賞電影《河鰻》與導演朱駿騰的映後座談，共同思考聲音與影像如何跨越語言、可見性與敘事，轉化為情感性的經驗。</p><p><strong>課程意義：</strong>這次田野是課程設計的一部分——在嘗試過單純展演空間的聲音活動後，帶著成員走出去，在真實的地景中感知聲音，為期末展覽的概念發展提供靈感與參照。</p>`,
+      chips:['田野踏查','聲景感知','地景走讀','C-LAB 聲響藝術節','課程設計'],
+      imgs:[{src:'clab1',cap:'C-LAB 2025 聲響藝術節 DIVERSONICS'},{src:'clab2',cap:'社子島社六濕地行為藝術現場'},{src:'clab3',cap:'島頭公園映後座談｜導演朱駿騰'}]
+    },
+    {
+      id:'o5', tag:'期末展覽', title:'五感期末展（114下）', brief:'以五感為核心的學期末成果展，目前籌備中',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'策展人',
+      desc:`<p>觀察者 114 下學期期末成果展，以「五感」為主題，每位成員負責一種感官進行創作，共同呈現跨感官的沉浸式展覽體驗。</p><p>（展覽籌備中，詳細內容即將更新。）</p>`,
+      chips:['策展統籌','五感','籌備中'],
+      imgs:[]
+    },
+  ],
+  design: [
+    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--blue)', emoji:'✦', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
+  ],
+  interview: [
+    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--amber)', emoji:'◎', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
+  ],
+  audio: [
+    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--pink)', emoji:'♪', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
+  ],
+  photo: [
+    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--purple)', emoji:'▣', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
+  ],
+  curation: [
+    {
+      id:'c1', tag:'策展', title:'餘燼之後 ── 廢墟美學展', brief:'六人聯展的策展與空間設計',
+      bg:'var(--coral)', emoji:'◈', year:'2024', role:'策展人、空間設計',
+      desc:'<p>策劃六位創作者參與的聯展，以廢墟美學為核心，探討殘缺作為一種創作語言。策展工作包含主題發展、藝術家溝通、空間規劃、文本撰寫與開幕活動。</p>',
+      imgs:[]
+    },
+    {
+      id:'c2', tag:'跨媒介創作', title:'給城市的情書', brief:'文字、聲音與影像的三聯作',
+      bg:'var(--coral)', emoji:'◈', year:'2023', role:'創作、製作',
+      desc:'<p>以台北為對象創作的三件組作品，分別以文字散文、錄音、攝影三種媒介呈現同一個主題，探討媒介本身如何影響感知。</p>',
+      imgs:[]
+    },
+  ],
+};
+
+let currentCat = '';
+
+function showOnly(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome()    { showOnly('screen-home'); }
+function goAbout()   { showOnly('screen-about'); }
+function goContact() { showOnly('screen-contact'); }
+function goShuyuan() { showOnly('screen-shuyuan'); }
+function goBackList(){ goList(currentCat); }
+
+function goList(cat) {
+  currentCat = cat;
+  const c = CATS[cat];
+  let bc = `<span onclick="goHome()">首頁</span>`;
+  if (c.parent === 'shuyuan') bc += `<span class="sep">/</span><span onclick="goShuyuan()">新生書院 Tutor</span>`;
+  bc += `<span class="sep">/</span><span class="current">${c.title}</span>`;
+  document.getElementById('list-bc').innerHTML = bc;
+  document.getElementById('list-title').textContent = c.title;
+  document.getElementById('list-desc').textContent = c.desc;
+  document.getElementById('work-list').innerHTML = (WORKS[cat]||[]).map(w => `
+    <div class="work-item" onclick="goDetail('${cat}','${w.id}')">
+      <div class="work-thumb" style="background:${w.bg}">${w.emoji}</div>
+      <div class="work-info">
+        <div class="work-tag">${w.tag}</div>
+        <div class="work-title">${w.title}</div>
+        <div class="work-brief">${w.brief}</div>
+      </div>
+      <div class="work-arrow">›</div>
+    </div>`).join('');
+  showOnly('screen-list');
+}
+
+function goDetail(cat, id) {
+  const w = (WORKS[cat]||[]).find(x => x.id === id);
+  if (!w) return;
+  const c = CATS[cat];
+  let bc = `<span onclick="goHome()">首頁</span>`;
+  if (c.parent === 'shuyuan') bc += `<span class="sep">/</span><span onclick="goShuyuan()">新生書院 Tutor</span>`;
+  bc += `<span class="sep">/</span><span onclick="goBackList()" style="cursor:pointer">${c.title}</span>`;
+  bc += `<span class="sep">/</span><span class="current">${w.title}</span>`;
+  document.getElementById('detail-bc').innerHTML = bc;
+
+  let html = `
+    <div class="detail-cover" style="background:${w.bg}">${w.emoji}</div>
+    <div class="detail-tag">${w.tag}</div>
+    <div class="detail-title">${w.title}</div>
+    <div class="detail-meta">
+      <span>${w.year}</span>
+      ${w.year && w.role ? `<span style="color:var(--border2)">·</span>` : ''}
+      <span>${w.role}</span>
+    </div>
+    <hr class="dv">
+    <div class="detail-body">${w.desc}</div>`;
+
+  if (w.chips) {
+    html += `<div class="chips">${w.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>`;
+  }
+
+  if (w.series && w.series.length) {
+    html += `<hr class="dv"><div class="section-sub">作品 / 系列</div><div class="series-list">`;
+    html += w.series.map((s, i) =>
+      `<div class="series-item">
+        <div class="series-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="series-title">${s.title}</div>
+      </div>`
+    ).join('');
+    html += `</div>`;
+  }
+
+  if (w.imgs) {
+    html += `<hr class="dv"><div class="section-sub">影像紀錄</div><div class="img-grid">`;
+    if (w.imgs.length === 0) {
+      html += `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>影像即將更新</span></div>`;
+    } else {
+      html += w.imgs.map(img => {
+        if (typeof img === 'object') {
+          const src = IMG[img.src];
+          if (src) {
+            return `<div class="img-slot real" onclick="openLightbox('${img.src}')" style="cursor:pointer;padding:0;overflow:hidden;border-style:solid;border-color:var(--border)">
+              <img src="${src}" alt="${img.cap}" style="width:100%;height:100%;object-fit:cover">
+            </div>`;
+          }
+          return `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>${img.cap}</span></div>`;
+        }
+        return `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>${img}</span></div>`;
+      }).join('');
+    }
+    html += `</div>`;
+  }
+
+  document.getElementById('detail-content').innerHTML = html;
+  showOnly('screen-detail');
+}
+
+// LIGHTBOX
+let lbImgs = [];
+let lbIdx = 0;
+
+function openLightbox(srcKey) {
+  const detailImgs = document.querySelectorAll('.img-slot.real img');
+  lbImgs = Array.from(detailImgs).map(el => el.src);
+  const clickedSrc = IMG[srcKey];
+  lbIdx = lbImgs.findIndex(s => s === clickedSrc);
+  if (lbIdx < 0) lbIdx = 0;
+  showLb();
+  document.getElementById('lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function showLb() {
+  document.getElementById('lb-img').src = lbImgs[lbIdx];
+  document.getElementById('lb-counter').textContent = `${lbIdx+1} / ${lbImgs.length}`;
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function lbPrev() { lbIdx = (lbIdx - 1 + lbImgs.length) % lbImgs.length; showLb(); }
+function lbNext() { lbIdx = (lbIdx + 1) % lbImgs.length; showLb(); }
+
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb.style.display === 'none') return;
+  if (e.key === 'ArrowLeft')  lbPrev();
+  if (e.key === 'ArrowRight') lbNext();
+  if (e.key === 'Escape')     closeLightbox();
+});
+</script>
+</body>
+</html>
