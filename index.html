@@ -635,17 +635,18 @@
         <div class="cat-title">聲音作品</div>
         <div class="cat-count">新增中 →</div>
       </div>
-      <div class="cat-card" onclick="goList('photo')">
-        <div class="cat-icon-wrap" style="background:var(--purple)">▣</div>
-        <div class="cat-meta">category 04</div>
-        <div class="cat-title">攝影</div>
-        <div class="cat-count">新增中 →</div>
-      </div>
       <div class="cat-card" onclick="goList('curation')">
         <div class="cat-icon-wrap" style="background:var(--coral)">◈</div>
-        <div class="cat-meta">category 05</div>
+        <div class="cat-meta">category 04</div>
         <div class="cat-title">策展與創作</div>
         <div class="cat-count">新增中 →</div>
+      </div>
+      <div class="cat-card" onclick="goList('music')">
+        <div class="cat-icon-wrap" style="background:var(--green)">♩</div>
+        <div class="cat-meta">category 05</div>
+        <div class="cat-title">文化盃合唱</div>
+        <div class="cat-subtitle">政大系際合唱比賽，三年從團員走向指揮與鋼琴伴奏</div>
+        <div class="cat-count">112–114 學年度 →</div>
       </div>
     </div>
   </div>
@@ -711,14 +712,14 @@
     </div>
     <div class="about-block">
       <div class="about-name">Yuying Zhao</div>
-      <div class="about-text">跨領域創作者，目前就讀國立政治大學，同時在平面設計、聲音創作、文字採訪與策展之間游移。</div>
-      <div class="about-text">相信不同媒介之間存在共同的感知邏輯，試圖透過創作尋找那條隱藏的線。</div>
+      <div class="about-text">趙于瑩，跨領域創作者，目前就讀國立政治大學廣電學系，同時跨域心理學、音樂、策展創作、採訪與設計。</div>
+      <div class="about-text">游移在不同的媒介與實踐之間找到共同的頻率。</div>
       <div class="about-tags">
         <span class="about-tag">平面設計</span>
         <span class="about-tag">聲音</span>
         <span class="about-tag">採訪</span>
         <span class="about-tag">策展</span>
-        <span class="about-tag">攝影</span>
+        <span class="about-tag">音樂</span>
         <span class="about-tag">活動策劃</span>
       </div>
     </div>
@@ -792,15 +793,18 @@ const IMG = {
   ig1:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160453.png',
   ig2:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160523.png',
   ig3:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160551.png',
-    // 感官與敘事工作坊
+  // 感官與敘事工作坊
   ws1:    REPO + 'IMG20260505200311.jpg',
   ws2:    REPO + 'IMG20260505200305.jpg',
   ws3:    REPO + '210622.jpg',
+  // 文化盃 114
+  mc1:    REPO + 'part_21337_6446114_11147%20(1).jpg',
+  mc2:    REPO + 'FB_IMG_1764438844906.jpg',
+  mc3:    REPO + 'IMG20251129170050.jpg',
   // C-LAB 聲響藝術節
   clab1:  REPO + 'IMG20251031151521.jpg',
   clab2:  REPO + 'IMG20251030212528.jpg',
-  clab3:  REPO + 'IMG20251031201807 (1).jpg',
-  
+  clab3:  REPO + 'IMG20251031201807%20(1).jpg',
 };
 
 function showOnly(id) {
@@ -906,8 +910,8 @@ const CATS = {
   design:   { title:'平面設計', desc:'海報、品牌識別、排版等視覺設計作品。', parent:'home' },
   interview:{ title:'採訪', desc:'文字與音頻採訪，記錄不同的生命故事。', parent:'home' },
   audio:    { title:'聲音作品', desc:'Podcast、聲景紀錄與聲音裝置。', parent:'home' },
-  photo:    { title:'攝影', desc:'紀實、人像與概念攝影系列。', parent:'home' },
   curation: { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
+  music:    { title:'文化盃合唱', desc:'政大系際合唱比賽，每年12月在四維堂舉辦，是幾乎每位政大人的共同記憶。三年從廣電系合唱團員，走向指揮、鋼琴伴奏，並擔任統籌教學的角色。', parent:'home' },
 };
 
 const WORKS = {
@@ -966,9 +970,9 @@ const WORKS = {
     {
       id:'o3', tag:'工作坊', title:'感官與敘事工作坊：氣味、書寫與記憶', brief:'以嗅覺為媒介，結合擴香石製作與自由書寫的兩週工作坊',
       bg:'var(--purple)', emoji:'◉', year:'2025', role:'企劃、主持',
-      desc:`<p>觀察者 114 下學期「五感」主題的工作坊，共兩週各 2.5 小時，10 人參與。</p><p><strong>核心概念：</strong>透過嗅覺作為記憶與情感的媒介，以書寫讓參與者梳理自己的情緒與記憶，調配出有故事性的記憶香氛，並製作擴香石作為氣味傳播的媒介。</p><p><strong>第一週：</strong>擴香石製作（石膏塑型、裝飾）＋自由書寫引導課程。</p><p><strong>第二週：</strong>氣味聯想活動（聞精油＋書寫＋分享）＋香氛噴霧調配教學，最後蒐集參與者的精油與故事作為期末成果展素材。</p>`,
+      desc:`<p>觀察者 114 下學期「五感」主題的工作坊，共兩週各 2.5 小時，10 人參與。</p><p><strong>核心概念：</strong>透過嗅覺作為記憶與情感的媒介，以書寫讓參與者梳理自己的情緒與記憶，調配出有故事性的記憶香氛，並製作擴香石作為氣味傳播的媒介。</p><p><strong>第一週：</strong>從心理學與生理層面切入嗅覺與個人記憶的連結，分享自由書寫的經驗與方法後帶領實際體驗。接著進行擴香石製作——不只是調配與灌模，也讓大家在書寫後以繪畫、裝飾的方式留下屬於自己的痕跡。</p><p><strong>第二週：</strong>介紹 18 種精油，讓大家逐一試聞並討論氣味印象。接著進行氣味聯想活動，搭配自由書寫寫下屬於這瓶香氛的故事。最後進行香氛噴霧與精油調配教學，讓每位參與者帶走一瓶屬於自己的氣味。</p>`,
       chips:['工作坊設計','感官體驗','書寫引導','香氛製作'],
-      imgs:[]
+      imgs:[{src:'ws1',cap:'工作坊現場'},{src:'ws2',cap:'工作坊現場'},{src:'ws3',cap:'工作坊現場'}]
     },
     {
       id:'o4', tag:'田野踏查 · 聲景感知', title:'C-LAB 聲響藝術節：社子島《中陰洄游》', brief:'帶領觀察者成員以聆聽、記錄與漫遊的方式進行現地聲景感知',
@@ -1009,6 +1013,29 @@ const WORKS = {
       bg:'var(--coral)', emoji:'◈', year:'2023', role:'創作、製作',
       desc:'<p>以台北為對象創作的三件組作品，分別以文字散文、錄音、攝影三種媒介呈現同一個主題，探討媒介本身如何影響感知。</p>',
       imgs:[]
+    },
+  ],
+  music: [
+    {
+      id:'m1', tag:'合唱團員', title:'112學年度文化盃', brief:'廣電系合唱團員，奪得冠軍',
+      bg:'var(--green)', emoji:'♩', year:'2023', role:'合唱團員',
+      desc:`<p>以傳播學院身份參加第57屆政大文化盃系際合唱比賽，是加入政大後第一個大型校級活動。</p><p>在學長姐帶領下進行聲部練習，延續過去從小加入合唱團的經驗。</p><p><strong>成績：</strong>冠軍 🏆</p>`,
+      chips:['合唱','聲部練習'],
+      imgs:[]
+    },
+    {
+      id:'m2', tag:'指揮 · 教學', title:'113學年度文化盃', brief:'首次擔任指揮，同時負責聲音詮釋教學，獲季軍',
+      bg:'var(--green)', emoji:'♩', year:'2024', role:'指揮、聲音詮釋教學',
+      desc:`<p>首次擔任廣電系文化盃指揮，從選曲、編排到帶領每次練習，全程負責音樂方向的規劃與執行。</p><p>除了指揮角色，也承擔教學任務——帶領系上同學理解歌曲詮釋、聲部融合與情感表達，讓不同音樂背景的成員都能進入狀態。</p><p><strong>成績：</strong>季軍 🥉</p>`,
+      chips:['指揮','聲音詮釋教學','選曲','聲部帶領'],
+      imgs:[]
+    },
+    {
+      id:'m3', tag:'鋼琴伴奏 · 教學', title:'114學年度文化盃', brief:'擔任鋼琴伴奏，同時負責伴奏教學，獲季軍',
+      bg:'var(--green)', emoji:'♩', year:'2025', role:'鋼琴伴奏、教學',
+      desc:`<p>擔任廣電系文化盃鋼琴伴奏，負責自選曲的鋼琴伴奏演出，並在練習階段帶領成員理解如何與鋼琴配合。</p><p>同時擔任教學角色，與指揮共同協助成員掌握樂曲的精準度與熟練度，讓合唱與鋼琴、肢體動作與服裝設計之間呈現完整的舞台。</p><p><strong>成績：</strong>季軍 🥉</p>`,
+      chips:['鋼琴伴奏','教學','節奏引導'],
+      imgs:[{src:'mc1',cap:'114文化盃演出'},{src:'mc2',cap:'114文化盃演出'},{src:'mc3',cap:'114文化盃演出'}]
     },
   ],
 };
