@@ -798,24 +798,6 @@ const IMG = {
   clab3:  REPO + 'IMG20251031201807.jpg',
 };
 
-const navStack = [];
-
-function updateBackBtn(label, show) {
-  const btn = document.getElementById('back-btn');
-  const lbl = document.getElementById('back-label');
-  if (show) {
-    lbl.textContent = label;
-    btn.classList.add('visible');
-  } else {
-    btn.classList.remove('visible');
-  }
-}
-
-function handleBack() {
-  if (navStack.length === 0) return;
-  navStack.pop()();
-}
-
 function showOnly(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -824,53 +806,15 @@ function showOnly(id) {
 
 let currentCat = '';
 
-function goHome() {
-  navStack.length = 0;
-  showOnly('screen-home');
-  updateBackBtn('', false);
-}
-
-function goAbout() {
-  navStack.length = 0;
-  navStack.push(() => goHome());
-  showOnly('screen-about');
-  updateBackBtn('首頁', true);
-}
-
-function goContact() {
-  navStack.length = 0;
-  navStack.push(() => goHome());
-  showOnly('screen-contact');
-  updateBackBtn('首頁', true);
-}
-
-function goShuyuan() {
-  navStack.length = 0;
-  navStack.push(() => goHome());
-  showOnly('screen-shuyuan');
-  updateBackBtn('首頁', true);
-}
-
-function goBackList() { goList(currentCat); }
+function goHome()    { showOnly('screen-home'); }
+function goAbout()   { showOnly('screen-about'); }
+function goContact() { showOnly('screen-contact'); }
+function goShuyuan() { showOnly('screen-shuyuan'); }
+function goBackList(){ goList(currentCat); }
 
 function goList(cat) {
   currentCat = cat;
   const c = CATS[cat];
-
-  navStack.length = 0;
-  if (c.parent === 'shuyuan') {
-    navStack.push(() => {
-      navStack.length = 0;
-      navStack.push(() => goHome());
-      showOnly('screen-shuyuan');
-      updateBackBtn('首頁', true);
-    });
-    updateBackBtn('新生書院', true);
-  } else {
-    navStack.push(() => goHome());
-    updateBackBtn('首頁', true);
-  }
-
   let bc = `<span onclick="goHome()">首頁</span>`;
   if (c.parent === 'shuyuan') bc += `<span class="sep">/</span><span onclick="goShuyuan()">新生書院 Tutor</span>`;
   bc += `<span class="sep">/</span><span class="current">${c.title}</span>`;
@@ -894,11 +838,6 @@ function goDetail(cat, id) {
   const w = (WORKS[cat]||[]).find(x => x.id === id);
   if (!w) return;
   const c = CATS[cat];
-
-  navStack.length = 0;
-  navStack.push(() => goList(cat));
-  updateBackBtn(c.title, true);
-
   let bc = `<span onclick="goHome()">首頁</span>`;
   if (c.parent === 'shuyuan') bc += `<span class="sep">/</span><span onclick="goShuyuan()">新生書院 Tutor</span>`;
   bc += `<span class="sep">/</span><span onclick="goBackList()" style="cursor:pointer">${c.title}</span>`;
@@ -920,7 +859,6 @@ function goDetail(cat, id) {
   if (w.chips) {
     html += `<div class="chips">${w.chips.map(ch => `<span class="chip">${ch}</span>`).join('')}</div>`;
   }
-
   if (w.series && w.series.length) {
     html += `<hr class="dv"><div class="section-sub">作品 / 系列</div><div class="series-list">`;
     html += w.series.map((s, i) =>
@@ -931,7 +869,6 @@ function goDetail(cat, id) {
     ).join('');
     html += `</div>`;
   }
-
   if (w.imgs) {
     html += `<hr class="dv"><div class="section-sub">影像紀錄</div><div class="img-grid">`;
     if (w.imgs.length === 0) {
@@ -957,15 +894,6 @@ function goDetail(cat, id) {
   showOnly('screen-detail');
 }
 
-// LIGHTBOX
-  wonder:   { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
-  observer: { title:'觀察者', desc:'以聲音為核心的自主學習計畫。帶領五位成員從認識聲音、田野錄音、聲音剪輯，走向期末策展與個人創作，同時設計並主持跨感官主題工作坊。', parent:'shuyuan' },
-  design:   { title:'平面設計', desc:'海報、品牌識別、排版等視覺設計作品。', parent:'home' },
-  interview:{ title:'採訪', desc:'文字與音頻採訪，記錄不同的生命故事。', parent:'home' },
-  audio:    { title:'聲音作品', desc:'Podcast、聲景紀錄與聲音裝置。', parent:'home' },
-  photo:    { title:'攝影', desc:'紀實、人像與概念攝影系列。', parent:'home' },
-  curation: { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
-};
 
 const CATS = {
   wonder:   { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
