@@ -582,7 +582,7 @@
           <div class="cat-meta">國立政治大學 · 新生書院</div>
           <div class="cat-title">新生書院 Tutor</div>
           <div class="cat-subtitle">帶領自主學習計畫，策劃課程、工作坊與期末展覽</div>
-          <div class="cat-count">異饗食堂 · 觀察者 — 112 · 113 學年度 →</div>
+          <div class="cat-count">異饗食堂 · 觀察者 — 113 · 114 學年度 →</div>
         </div>
       </div>
       <div class="cat-card" onclick="goList('design')">
@@ -626,15 +626,15 @@
       <span class="current">新生書院 Tutor</span>
     </div>
     <div class="list-header">
-      <div class="list-badge">國立政治大學 · 新生書院 · 112–113 學年度</div>
+      <div class="list-badge">國立政治大學 · 新生書院 · 112–114 學年度</div>
       <div class="list-title">新生書院 Tutor</div>
-      <div class="list-desc">擔任政大新生書院自主學習計畫的 Tutor，負責設計課程架構、帶領每週活動、策劃工作坊與學期末成果展覽。112 學年度帶領「異饗食堂」，113 學年度帶領「觀察者」。</div>
+      <div class="list-desc">參與政大新生書院自主學習計畫。112 學年度以成員身份參與；113 學年度擔任 Tutor 帶領「異饗食堂」；114 學年度擔任 Tutor 帶領「觀察者」，負責設計課程架構、帶領每週活動、策劃工作坊與學期末成果展覽。</div>
     </div>
     <div class="subproject-card" onclick="goList('wonder')">
       <div class="subproject-header">
         <div class="subproject-icon" style="background:var(--amber)">⬡</div>
         <div class="subproject-info">
-          <div class="subproject-tag">自主學習計畫 · 112 學年度</div>
+          <div class="subproject-tag">自主學習計畫 · 113 學年度</div>
           <div class="subproject-title">異饗食堂</div>
           <div class="subproject-brief">以餐廳為容器，結合烹飪、活動策劃與社群經營的飲食創作計畫</div>
         </div>
@@ -645,7 +645,7 @@
       <div class="subproject-header">
         <div class="subproject-icon" style="background:var(--purple)">◉</div>
         <div class="subproject-info">
-          <div class="subproject-tag">自主學習計畫 · 113 學年度</div>
+          <div class="subproject-tag">自主學習計畫 · 114 學年度</div>
           <div class="subproject-title">觀察者</div>
           <div class="subproject-brief">以聲音與五感為核心的創作學習計畫，帶領成員從田野收集走向策展與裝置創作</div>
         </div>
@@ -727,7 +727,39 @@
 </div>
 
 <script>
-const IMG = {};
+const REPO = 'https://raw.githubusercontent.com/YuyingZhao0710/YuyingZhao0710/main/';
+
+const IMG = {
+  // 秋季甜點企劃
+  aut1: REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_1.jpg',
+  aut2: REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_2.jpg',
+  aut3: REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_3.jpg',
+
+  // 廚藝研習（草莓季）
+  kitch1: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_1.jpg',
+  kitch2: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_2.jpg',
+  kitch3: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_3.jpg',
+
+  // USR × 世界蜜蜂日 → 0529 兩張
+  bee1: REPO + 'LINE_ALBUM_0529%F0%9F%8D%BD%EF%B8%8F%F0%9F%A5%AC_260504_1.jpg',
+  bee2: REPO + 'LINE_ALBUM_0529%F0%9F%8D%BD%EF%B8%8F%F0%9F%A5%AC_260504_2.jpg',
+  bee3: REPO + 'LINE_ALBUM_0529%F0%9F%8D%BD%EF%B8%8F%F0%9F%A5%AC_260504_2.jpg',
+
+  // 《嚐聲》→ 末三碼 107、554、208
+  ts1: REPO + 'IMG20251216152107%20(1).jpg',
+  ts2: REPO + 'IMG20251216152554.jpg',
+  ts3: REPO + 'IMG20251216151208.jpg',
+
+  // 異饗小廚房 IG
+  ig1: REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160453.png',
+  ig2: REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160523.png',
+  ig3: REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160551.png',
+
+  // C-LAB 聲響藝術節
+  clab1: REPO + 'IMG20251031151521.jpg',
+  clab2: REPO + 'IMG20251030212528.jpg',
+  clab3: REPO + 'IMG20251031201807.jpg',
+};
 
 const CATS = {
   wonder:   { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
