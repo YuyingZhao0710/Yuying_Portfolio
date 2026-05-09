@@ -7,582 +7,127 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F7F5F0;
-    --bg2: #EDEAE3;
-    --text: #1A1915;
-    --text2: #6B6860;
-    --text3: #A8A59F;
-    --border: rgba(26,25,21,0.10);
-    --border2: rgba(26,25,21,0.20);
-    --blue: #E6F1FB;
-    --green: #E1F5EE;
-    --amber: #FAEEDA;
-    --pink: #FBEAF0;
-    --purple: #EEEDFE;
-    --coral: #FAECE7;
-    --amber-dark: #C89A3C;
-    --purple-dark: #7B78D8;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Space Mono', monospace;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Subtle grain texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.5;
-  }
-
-  .wrap { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
-
-  /* HEADER */
-  header {
-    padding: 2rem 0 0;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 3.5rem;
-    position: sticky;
-    top: 0;
-    background: rgba(247,245,240,0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 100;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding-bottom: 1.25rem;
-  }
-
-  .site-name {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: var(--text2);
-  }
-
-  .header-nav { display: flex; gap: 1.75rem; }
-  .header-nav a {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text3);
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.15s;
-    position: relative;
-  }
-  .header-nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0;
-    height: 0.5px;
-    background: var(--text);
-    transition: width 0.2s;
-  }
-  .header-nav a:hover { color: var(--text); }
-  .header-nav a:hover::after { width: 100%; }
-
-  /* SCREENS */
-  .screen { display: none; }
-  .screen.active {
-    display: block;
-    animation: fadeUp 0.25s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* HERO */
-  .hero { margin-bottom: 3.5rem; padding-top: 0.5rem; }
-
-  .hero-eyebrow {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-name {
-    font-family: 'Noto Serif TC', serif;
-    font-size: clamp(42px, 7vw, 64px);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    color: var(--text);
-    margin-bottom: 1rem;
-  }
-
-  .hero-line {
-    width: 32px;
-    height: 0.5px;
-    background: var(--text3);
-    margin: 1.5rem 0;
-  }
-
-  .hero-desc {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 2;
-    max-width: 400px;
-  }
-
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 1.25rem;
-  }
-
-  /* CAT GRID */
-  .cat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-    gap: 8px;
-    margin-bottom: 5rem;
-  }
-
-  .cat-card {
-    background: #fff;
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 1.25rem;
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-
-  .cat-card:hover {
-    border-color: var(--border2);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
-  }
-
-  .cat-icon-wrap {
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    margin-bottom: 2px;
-  }
-
-  .cat-meta { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
-  .cat-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
-  .cat-subtitle { font-size: 11px; color: var(--text2); line-height: 1.6; }
-  .cat-count { font-size: 11px; color: var(--text3); margin-top: auto; }
-
-  /* FEATURED CARD */
-  .cat-card.featured {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.75rem;
-    background: var(--text);
-    border-color: var(--text);
-    border-radius: 6px;
-  }
-
-  .cat-card.featured:hover {
-    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
-    transform: translateY(-2px);
-  }
-
-  .cat-card.featured .cat-meta { color: rgba(255,255,255,.35); }
-  .cat-card.featured .cat-title { font-size: 19px; color: #fff; }
-  .cat-card.featured .cat-subtitle { color: rgba(255,255,255,.55); }
-  .cat-card.featured .cat-count { color: rgba(255,255,255,.35); }
-  .cat-card.featured .cat-icon-wrap {
-    background: rgba(255,255,255,.08);
-    font-size: 24px;
-    width: 52px;
-    height: 52px;
-    flex-shrink: 0;
-  }
-
-  .featured-text { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-
-  /* BREADCRUMB */
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 10px;
-    letter-spacing: 0.5px;
-    color: var(--text3);
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .breadcrumb span { cursor: pointer; transition: color 0.12s; }
-  .breadcrumb span:hover { color: var(--text); }
-  .breadcrumb .sep { color: var(--border2); cursor: default; }
-  .breadcrumb .current { color: var(--text2); cursor: default; }
-
-  /* LIST HEADER */
-  .list-header { margin-bottom: 2rem; }
-
-  .list-badge {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 9px;
-    border: 0.5px solid var(--border2);
-    border-radius: 100px;
-    color: var(--text2);
-    margin-bottom: 10px;
-  }
-
-  .list-title {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-    letter-spacing: -0.5px;
-  }
-
-  .list-desc { font-size: 12px; color: var(--text2); line-height: 1.8; }
-
-  /* WORK LIST */
-  .work-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4rem; }
-
-  .work-item {
-    background: #fff;
-    border: 0.5px solid var(--border);
-    border-radius: 5px;
-    padding: 1rem 1.25rem;
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .work-item:hover {
-    border-color: var(--border2);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  }
-
-  .work-thumb {
-    width: 52px;
-    height: 52px;
-    border-radius: 4px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
-  .work-info { flex: 1; min-width: 0; }
-  .work-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
-  .work-title { font-family: 'Noto Serif TC', serif; font-size: 15px; color: var(--text); }
-  .work-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
-  .work-arrow { color: var(--text3); font-size: 18px; flex-shrink: 0; }
-
-  /* SUBPROJECT */
-  .subproject-card {
-    background: #fff;
-    border: 0.5px solid var(--border);
-    border-radius: 5px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-
-  .subproject-card:hover {
-    border-color: var(--border2);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  }
-
-  .subproject-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.25rem;
-  }
-
-  .subproject-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-
-  .subproject-info { flex: 1; }
-  .subproject-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
-  .subproject-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
-  .subproject-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
-
-  /* DETAIL */
-  .detail-cover {
-    width: 100%;
-    height: 180px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 52px;
-    margin-bottom: 1.5rem;
-  }
-
-  .detail-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-  .detail-title { font-family: 'Noto Serif TC', serif; font-size: 25px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; letter-spacing: -0.3px; }
-
-  .detail-meta {
-    display: flex;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--text2);
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  hr.dv { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
-
-  .detail-body { font-size: 13px; line-height: 1.95; margin-bottom: 1rem; color: var(--text); }
-  .detail-body p { margin-bottom: 0.75rem; color: var(--text2); }
-  .detail-body strong { font-weight: 700; color: var(--text); }
-
-  .section-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
-
-  /* CHIPS */
-  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 1rem 0; }
-
-  .chip {
-    font-size: 10px;
-    letter-spacing: 0.5px;
-    padding: 4px 10px;
-    border: 0.5px solid var(--border2);
-    border-radius: 100px;
-    color: var(--text2);
-  }
-
-  /* SERIES */
-  .series-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.5rem; }
-
-  .series-item {
-    background: #fff;
-    border: 0.5px solid var(--border);
-    border-radius: 4px;
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-  }
-
-  .series-num { font-size: 10px; color: var(--text3); width: 24px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
-  .series-title { color: var(--text); flex: 1; font-family: 'Noto Serif TC', serif; }
-
-  /* IMG GRID */
-  .img-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 7px;
-    margin-bottom: 1.5rem;
-  }
-
-  .img-slot {
-    height: 110px;
-    border-radius: 4px;
-    border: 0.5px dashed var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg2);
-    flex-direction: column;
-    gap: 5px;
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 0.5px;
-  }
-
-  /* ABOUT */
-  .about-block { max-width: 520px; margin-bottom: 4rem; }
-
-  .about-name {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    letter-spacing: -0.3px;
-  }
-
-  .about-text { font-size: 13px; color: var(--text2); line-height: 1.95; margin-bottom: 1rem; }
-
-  .about-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; }
-
-  .about-tag {
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border: 0.5px solid var(--border2);
-    border-radius: 100px;
-    color: var(--text2);
-  }
-
-  .contact-links { display: flex; flex-direction: column; gap: 10px; margin-top: 1.25rem; }
-
-  .contact-link {
-    font-size: 13px;
-    color: var(--text2);
-    text-decoration: none;
-    transition: color 0.12s;
-  }
-
-  .contact-link:hover { color: var(--text); }
-
-  /* FOOTER */
-  footer {
-    border-top: 0.5px solid var(--border);
-    padding: 1.5rem 0;
-    font-size: 10px;
-    letter-spacing: 0.5px;
-    color: var(--text3);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 2rem;
-  }
-
-  /* LIGHTBOX */
-  #lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,10,8,0.94);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  #lb-img {
-    max-width: 90vw;
-    max-height: 82vh;
-    object-fit: contain;
-    border-radius: 4px;
-  }
-
-  .lb-controls {
-    margin-top: 1.25rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .lb-btn {
-    background: rgba(255,255,255,0.12);
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .lb-btn:hover { background: rgba(255,255,255,0.22); }
-
-  #lb-counter {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.4);
-    min-width: 40px;
-    text-align: center;
-  }
-
-  .lb-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.5);
-    font-size: 20px;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.12s;
-  }
-
-  .lb-close:hover { color: #fff; }
-
-  /* BACK BUTTON */
-  .back-btn {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    display: none;
-    align-items: center;
-    gap: 8px;
-    background: var(--text);
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    padding: 10px 18px 10px 14px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    z-index: 200;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
-  }
-
-  .back-btn.visible { display: flex; animation: fadeUp 0.2s ease both; }
-  .back-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
-  .back-btn:active { transform: translateY(0); }
-
-  .back-btn .back-arrow {
-    font-size: 16px;
-    line-height: 1;
-    margin-top: -1px;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 560px) {
-    .cat-grid { grid-template-columns: 1fr 1fr; }
-    .cat-card.featured { flex-direction: column; align-items: flex-start; }
-    .header-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    header { padding: 1.25rem 0 0; }
-  }
+:root {
+  --bg: #F7F5F0; --bg2: #EDEAE3; --text: #1A1915; --text2: #6B6860; --text3: #A8A59F;
+  --border: rgba(26,25,21,0.10); --border2: rgba(26,25,21,0.20);
+  --blue: #E6F1FB; --green: #E1F5EE; --amber: #FAEEDA; --pink: #FBEAF0; --purple: #EEEDFE; --coral: #FAECE7;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+
+header { padding: 2rem 0 0; border-bottom: 0.5px solid var(--border); margin-bottom: 3.5rem; position: sticky; top: 0; background: rgba(247,245,240,0.92); backdrop-filter: blur(12px); z-index: 100; }
+.header-inner { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 1.25rem; }
+.site-name { font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 400; letter-spacing: 0.5px; color: var(--text2); }
+.header-nav { display: flex; gap: 1.75rem; }
+.header-nav a { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); text-decoration: none; cursor: pointer; transition: color 0.15s; }
+.header-nav a:hover { color: var(--text); }
+
+.screen { display: none; }
+.screen.active { display: block; animation: fadeUp 0.25s ease both; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.hero { margin-bottom: 3.5rem; padding-top: 0.5rem; }
+.hero-eyebrow { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 1.25rem; }
+.hero-name { font-family: 'Noto Serif TC', serif; font-size: clamp(42px,7vw,64px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 1rem; }
+.hero-line { width: 32px; height: 0.5px; background: var(--text3); margin: 1.5rem 0; }
+.hero-desc { font-size: 12px; color: var(--text2); line-height: 2; max-width: 400px; }
+.section-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 1.25rem; }
+
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(225px,1fr)); gap: 8px; margin-bottom: 5rem; }
+.cat-card { background: #fff; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.25rem; cursor: pointer; transition: border-color 0.15s, transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; gap: 7px; }
+.cat-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+.cat-icon-wrap { width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 2px; }
+.cat-meta { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+.cat-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
+.cat-subtitle { font-size: 11px; color: var(--text2); line-height: 1.6; }
+.cat-count { font-size: 11px; color: var(--text3); margin-top: auto; }
+
+.cat-card.featured { grid-column: 1/-1; flex-direction: row; align-items: center; gap: 1.5rem; padding: 1.75rem; background: var(--text); border-color: var(--text); }
+.cat-card.featured:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.18); transform: translateY(-2px); }
+.cat-card.featured .cat-meta { color: rgba(255,255,255,.35); }
+.cat-card.featured .cat-title { font-size: 19px; color: #fff; }
+.cat-card.featured .cat-subtitle { color: rgba(255,255,255,.55); }
+.cat-card.featured .cat-count { color: rgba(255,255,255,.35); }
+.cat-card.featured .cat-icon-wrap { background: rgba(255,255,255,.08); font-size: 24px; width: 52px; height: 52px; flex-shrink: 0; }
+.featured-text { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+
+.breadcrumb { display: flex; align-items: center; gap: 7px; font-size: 10px; color: var(--text3); margin-bottom: 2rem; flex-wrap: wrap; }
+.breadcrumb span { cursor: pointer; transition: color 0.12s; }
+.breadcrumb span:hover { color: var(--text); }
+.breadcrumb .sep { color: var(--border2); cursor: default; }
+.breadcrumb .current { color: var(--text2); cursor: default; }
+
+.list-header { margin-bottom: 2rem; }
+.list-badge { display: inline-block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border: 0.5px solid var(--border2); border-radius: 100px; color: var(--text2); margin-bottom: 10px; }
+.list-title { font-family: 'Noto Serif TC', serif; font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.list-desc { font-size: 12px; color: var(--text2); line-height: 1.8; }
+
+.work-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4rem; }
+.work-item { background: #fff; border: 0.5px solid var(--border); border-radius: 5px; padding: 1rem 1.25rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; display: flex; gap: 1rem; align-items: center; }
+.work-item:hover { border-color: var(--border2); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.work-thumb { width: 52px; height: 52px; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.work-info { flex: 1; min-width: 0; }
+.work-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
+.work-title { font-family: 'Noto Serif TC', serif; font-size: 15px; color: var(--text); }
+.work-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+.work-arrow { color: var(--text3); font-size: 18px; flex-shrink: 0; }
+
+.subproject-card { background: #fff; border: 0.5px solid var(--border); border-radius: 5px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
+.subproject-card:hover { border-color: var(--border2); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.subproject-header { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; }
+.subproject-icon { width: 48px; height: 48px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.subproject-info { flex: 1; }
+.subproject-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
+.subproject-title { font-family: 'Noto Serif TC', serif; font-size: 16px; color: var(--text); font-weight: 700; }
+.subproject-brief { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+
+.detail-cover { width: 100%; height: 180px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 52px; margin-bottom: 1.5rem; }
+.detail-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.detail-title { font-family: 'Noto Serif TC', serif; font-size: 25px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+.detail-meta { display: flex; gap: 12px; font-size: 11px; color: var(--text2); margin-bottom: 1.5rem; flex-wrap: wrap; }
+hr.dv { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
+.detail-body { font-size: 13px; line-height: 1.95; margin-bottom: 1rem; }
+.detail-body p { margin-bottom: 0.75rem; color: var(--text2); }
+.detail-body strong { font-weight: 700; color: var(--text); }
+.section-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 1rem 0; }
+.chip { font-size: 10px; padding: 4px 10px; border: 0.5px solid var(--border2); border-radius: 100px; color: var(--text2); }
+
+.series-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.5rem; }
+.series-item { background: #fff; border: 0.5px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 12px; }
+.series-num { font-size: 10px; color: var(--text3); width: 24px; flex-shrink: 0; }
+.series-title { color: var(--text); flex: 1; font-family: 'Noto Serif TC', serif; font-size: 13px; }
+
+.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 7px; margin-bottom: 1.5rem; }
+.img-slot { height: 110px; border-radius: 4px; border: 0.5px dashed var(--border2); display: flex; align-items: center; justify-content: center; background: var(--bg2); flex-direction: column; gap: 5px; font-size: 10px; color: var(--text3); }
+
+.about-block { max-width: 520px; margin-bottom: 4rem; }
+.about-name { font-family: 'Noto Serif TC', serif; font-size: 26px; font-weight: 700; margin-bottom: 1rem; }
+.about-text { font-size: 13px; color: var(--text2); line-height: 1.95; margin-bottom: 1rem; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; }
+.about-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 0.5px solid var(--border2); border-radius: 100px; color: var(--text2); }
+.contact-links { display: flex; flex-direction: column; gap: 10px; margin-top: 1.25rem; }
+.contact-link { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.12s; }
+.contact-link:hover { color: var(--text); }
+
+footer { border-top: 0.5px solid var(--border); padding: 1.5rem 0; font-size: 10px; color: var(--text3); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+
+#lightbox { display: none; position: fixed; inset: 0; background: rgba(10,10,8,0.94); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+#lb-img { max-width: 90vw; max-height: 82vh; object-fit: contain; border-radius: 4px; }
+.lb-controls { margin-top: 1.25rem; display: flex; gap: 1rem; align-items: center; }
+.lb-btn { background: rgba(255,255,255,0.12); border: none; color: #fff; font-size: 18px; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; }
+.lb-btn:hover { background: rgba(255,255,255,0.22); }
+#lb-counter { font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); min-width: 40px; text-align: center; }
+.lb-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 20px; cursor: pointer; }
+.lb-close:hover { color: #fff; }
+
+@media (max-width: 560px) {
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .cat-card.featured { flex-direction: column; align-items: flex-start; }
+  .header-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}
 </style>
 </head>
 <body>
@@ -604,7 +149,7 @@
       <div class="hero-eyebrow">Portfolio · 作品集</div>
       <div class="hero-name">Yuying<br>Zhao</div>
       <div class="hero-line"></div>
-      <div class="hero-desc">跨領域創作者，游移於平面設計、聲音、文字與空間之間，嘗試在不同媒介中找到共同的感知語言。</div>
+      <div class="hero-desc">趙于瑩，跨領域創作者，目前就讀國立政治大學廣電學系，同時跨域心理學、音樂、策展創作、採訪與設計。游移在不同的媒介與實踐之間找到共同的頻率。</div>
     </div>
     <div class="section-label">Selected Works</div>
     <div class="cat-grid">
@@ -620,20 +165,20 @@
       <div class="cat-card" onclick="goList('design')">
         <div class="cat-icon-wrap" style="background:var(--blue)">✦</div>
         <div class="cat-meta">category 01</div>
-        <div class="cat-title">平面設計</div>
-        <div class="cat-count">新增中 →</div>
+        <div class="cat-title">社群經營</div>
+        <div class="cat-count">3 件作品 →</div>
       </div>
       <div class="cat-card" onclick="goList('interview')">
         <div class="cat-icon-wrap" style="background:var(--amber)">◎</div>
         <div class="cat-meta">category 02</div>
-        <div class="cat-title">採訪</div>
-        <div class="cat-count">新增中 →</div>
+        <div class="cat-title">專題採訪</div>
+        <div class="cat-count">2 件作品 →</div>
       </div>
       <div class="cat-card" onclick="goList('audio')">
         <div class="cat-icon-wrap" style="background:var(--pink)">♪</div>
         <div class="cat-meta">category 03</div>
         <div class="cat-title">聲音作品</div>
-        <div class="cat-count">新增中 →</div>
+        <div class="cat-count">2 件作品 →</div>
       </div>
       <div class="cat-card" onclick="goList('curation')">
         <div class="cat-icon-wrap" style="background:var(--coral)">◈</div>
@@ -654,9 +199,7 @@
   <!-- SHUYUAN -->
   <div class="screen" id="screen-shuyuan">
     <div class="breadcrumb">
-      <span onclick="goHome()">首頁</span>
-      <span class="sep">/</span>
-      <span class="current">新生書院 Tutor</span>
+      <span onclick="goHome()">首頁</span><span class="sep">/</span><span class="current">新生書院 Tutor</span>
     </div>
     <div class="list-header">
       <div class="list-badge">國立政治大學 · 新生書院 · 112–114 學年度</div>
@@ -685,6 +228,17 @@
         <div class="work-arrow">›</div>
       </div>
     </div>
+    <div class="subproject-card" onclick="goList('shuyuan_events')">
+      <div class="subproject-header">
+        <div class="subproject-icon" style="background:var(--green)">◎</div>
+        <div class="subproject-info">
+          <div class="subproject-tag">書院活動統籌 · 112–114 學年度</div>
+          <div class="subproject-title">書院活動籌辦</div>
+          <div class="subproject-brief">參與新生歡迎式、說明會、招新說明會、結業式等書院活動籌辦，113 學年度擔任新生書院說明會總召</div>
+        </div>
+        <div class="work-arrow">›</div>
+      </div>
+    </div>
   </div>
 
   <!-- LIST -->
@@ -705,39 +259,27 @@
 
   <!-- ABOUT -->
   <div class="screen" id="screen-about">
-    <div class="breadcrumb">
-      <span onclick="goHome()">首頁</span>
-      <span class="sep">/</span>
-      <span class="current">關於</span>
-    </div>
+    <div class="breadcrumb"><span onclick="goHome()">首頁</span><span class="sep">/</span><span class="current">關於</span></div>
     <div class="about-block">
       <div class="about-name">Yuying Zhao</div>
       <div class="about-text">趙于瑩，跨領域創作者，目前就讀國立政治大學廣電學系，同時跨域心理學、音樂、策展創作、採訪與設計。</div>
       <div class="about-text">游移在不同的媒介與實踐之間找到共同的頻率。</div>
       <div class="about-tags">
-        <span class="about-tag">平面設計</span>
-        <span class="about-tag">聲音</span>
-        <span class="about-tag">採訪</span>
-        <span class="about-tag">策展</span>
-        <span class="about-tag">音樂</span>
-        <span class="about-tag">活動策劃</span>
+        <span class="about-tag">平面設計</span><span class="about-tag">聲音</span><span class="about-tag">採訪</span>
+        <span class="about-tag">策展</span><span class="about-tag">音樂</span><span class="about-tag">活動策劃</span>
       </div>
     </div>
   </div>
 
   <!-- CONTACT -->
   <div class="screen" id="screen-contact">
-    <div class="breadcrumb">
-      <span onclick="goHome()">首頁</span>
-      <span class="sep">/</span>
-      <span class="current">聯絡</span>
-    </div>
+    <div class="breadcrumb"><span onclick="goHome()">首頁</span><span class="sep">/</span><span class="current">聯絡</span></div>
     <div class="about-block">
       <div class="list-title" style="margin-bottom:.5rem">聯絡我</div>
       <div class="list-desc">歡迎合作提案、採訪邀約或任何交流。</div>
       <div class="contact-links">
         <a class="contact-link" href="mailto:melody0966318365@gmail.com">✉ melody0966318365@gmail.com</a>
-        <a class="contact-link" href="https://instagram.com/" target="_blank">◎ Instagram</a>
+        <a class="contact-link" href="https://www.instagram.com/yuying_0710/" target="_blank">◎ @yuying_0710</a>
       </div>
     </div>
   </div>
@@ -748,13 +290,6 @@
   </footer>
 </div>
 
-<!-- BACK BUTTON -->
-<button class="back-btn" id="back-btn" onclick="handleBack()">
-  <span class="back-arrow">←</span>
-  <span id="back-label">返回</span>
-</button>
-
-<!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lb-img" src="" alt="">
   <div class="lb-controls">
@@ -769,42 +304,217 @@
 const REPO = 'https://raw.githubusercontent.com/YuyingZhao0710/Yuying_Portfolio/main/';
 
 const IMG = {
-  // 秋季甜點企劃
   aut1:   REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_1.jpg',
   aut2:   REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_2.jpg',
   aut3:   REPO + 'LINE_ALBUM_1121%20%E7%A7%8B%E5%AD%A3%E9%A4%90%E7%9B%92%F0%9F%8D%B1_260504_3.jpg',
-  // 廚藝研習
   kitch1: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_1.jpg',
   kitch2: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_2.jpg',
   kitch3: REPO + 'LINE_ALBUM_0320%E5%BB%9A%E8%97%9D%E7%A0%94%E7%BF%92%F0%9F%8D%93_260504_3.jpg',
-  // USR × 世界蜜蜂日
   bee1:   REPO + 'LINE_ALBUM_0522%F0%9F%8D%AF%F0%9F%90%9D_260504_1.jpg',
   bee2:   REPO + 'LINE_ALBUM_0522%F0%9F%8D%AF%F0%9F%90%9D_260504_2.jpg',
   bee3:   REPO + 'LINE_ALBUM_0522%F0%9F%8D%AF%F0%9F%90%9D_260504_3.jpg',
-  // 茶料理
   tea1:   REPO + 'LINE_ALBUM_0529%F0%9F%8D%B5%F0%9F%8D%83_260504_1.jpg',
   tea2:   REPO + 'LINE_ALBUM_0529%F0%9F%8D%B5%F0%9F%8D%83_260504_2.jpg',
   tea3:   REPO + 'LINE_ALBUM_0529%F0%9F%8D%B5%F0%9F%8D%83_260504_3.jpg',
-  // 《嚐聲》
   ts1:    REPO + 'IMG20251216152554.jpg',
   ts2:    REPO + 'IMG20251216152107%20(1).jpg',
   ts3:    REPO + 'IMG20251216151208.jpg',
-  // 異饗小廚房 IG
   ig1:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160453.png',
   ig2:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160523.png',
   ig3:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-04%20160551.png',
-  // 感官與敘事工作坊
   ws1:    REPO + 'IMG20260505200311.jpg',
   ws2:    REPO + 'IMG20260505200305.jpg',
   ws3:    REPO + '210622.jpg',
-  // 文化盃 114
-  mc1:    REPO + 'part_21337_6446114_11147%20(1).jpg',
-  mc2:    REPO + 'FB_IMG_1764438844906.jpg',
-  mc3:    REPO + 'IMG20251129170050.jpg',
-  // C-LAB 聲響藝術節
   clab1:  REPO + 'IMG20251031151521.jpg',
   clab2:  REPO + 'IMG20251030212528.jpg',
   clab3:  REPO + 'IMG20251031201807%20(1).jpg',
+  iv1:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-06%20222327.png',
+  iv2:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-06%20222440.png',
+  iv3:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-06%20222515.png',
+  yl1:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-09%20171352.png',
+  yl2:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-09%20171438.png',
+  yl3:    REPO + '%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-05-09%20171458.png',
+  sv1:    REPO + '213617.jpg',
+  sv2:    REPO + '213618.jpg',
+  sv3:    REPO + 'IMG20251218140540.jpg',
+  mc1:    REPO + 'part_21337_6446114_11147%20(1).jpg',
+  mc2:    REPO + 'FB_IMG_1764438844906.jpg',
+  mc3:    REPO + 'IMG20251129170050.jpg',
+};
+
+const CATS = {
+  wonder:         { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
+  observer:       { title:'觀察者', desc:'以聲音為核心的自主學習計畫。帶領五位成員從認識聲音、田野錄音、聲音剪輯，走向期末策展與個人創作，同時設計並主持跨感官主題工作坊。', parent:'shuyuan' },
+  shuyuan_events: { title:'書院活動籌辦', desc:'參與政大新生書院各大活動的籌辦，包含新生歡迎式、學習計畫說明會、Tutor 招新說明會與結業式，其中擔任 113 學年度新生書院說明會總召。', parent:'shuyuan' },
+  design:         { title:'社群經營', desc:'負責新生書院、異饗食堂與觀察者的 Instagram 社群經營，包含主視覺設計、圖文排版與內容規劃。', parent:'home' },
+  interview:      { title:'專題採訪', desc:'以影音為媒介的深度專題採訪，從企劃、拍攝到剪輯，記錄不同的生命故事與文化現場。', parent:'home' },
+  audio:          { title:'聲音作品', desc:'聲音裝置、劇場展演與錄音創作。', parent:'home' },
+  curation:       { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
+  music:          { title:'文化盃合唱', desc:'政大系際合唱比賽，每年12月在四維堂舉辦，是幾乎每位政大人的共同記憶。三年從廣電系合唱團員，走向指揮、鋼琴伴奏，並擔任統籌教學的角色。', parent:'home' },
+};
+
+const WORKS = {
+
+  wonder: [
+    { id:'w1', tag:'飲食創作', title:'秋季甜點企劃', brief:'以秋季食材為題的甜點餐盒，出餐 60 份以上',
+      bg:'var(--amber)', emoji:'⬡', year:'2023', role:'發想、烹飪、宣傳設計',
+      desc:`<p>以秋季常見食材作為創作主軸，企劃並製作一套完整的甜點餐盒，從選材發想到製作出餐全程負責。</p><p><strong>菜單：</strong>桂花糕、栗子酥、桂花蘋果乳酪塔、抹茶栗子磅蛋糕、田園雞肉咖哩飯。</p><p>共出餐 60 份以上，同步設計 IG 宣傳圖文進行推廣。</p>`,
+      chips:['菜單發想','烹飪製作','IG 視覺設計','出餐執行'],
+      imgs:[{src:'aut1',cap:'秋季甜點餐盒'},{src:'aut2',cap:'甜點製作過程'},{src:'aut3',cap:'抹茶栗子磅蛋糕'}] },
+
+    { id:'w2', tag:'系列推文', title:'異饗小廚房', brief:'每月廚藝研習的紀錄製作，整合攝影、食譜與文字',
+      bg:'var(--amber)', emoji:'⬡', year:'2023–2024', role:'企劃、攝影、文案、視覺設計',
+      desc:`<p>每個月成員各自練習一道料理，在製作期間與完成後進行完整紀錄，製作成系列 IG 推文。</p><p><strong>每篇推文包含：</strong>料理照片（美感構圖）、食譜步驟、製作心得與文字敘述。負責統籌整個系列的視覺風格與內容架構。</p>`,
+      chips:['企劃統籌','攝影','文案撰寫','IG 視覺'],
+      imgs:[{src:'ig1',cap:'草莓季廚藝心得'},{src:'ig2',cap:'第二集｜墨西哥玉米片'},{src:'ig3',cap:'第四集｜上海生煎包'}] },
+
+    { id:'w3', tag:'主題活動', title:'茶料理企劃', brief:'走訪茶行，以不同茶種為靈感發展創意料理',
+      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'企劃、執行',
+      desc:`<p>帶領成員前往茶行實地參訪，聽取不同茶種的介紹與風味說明，回來後各自選用一種茶作為料理發想，實際製作成一系列茶料理。</p><p>從體驗設計到料理發想，整合了田野參訪與飲食創作的思維。</p>`,
+      chips:['活動規劃','田野參訪','料理創作'],
+      imgs:[{src:'tea1',cap:'茶料理成品'},{src:'tea2',cap:'料理製作過程'},{src:'tea3',cap:'活動紀錄'}] },
+
+    { id:'w4', tag:'跨界合作', title:'USR × 世界蜜蜂日', brief:'結合 520 世界蜜蜂日，與 USR 計畫合作的蜂蜜料理活動',
+      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'共同策劃、執行',
+      desc:`<p>與校內 USR 計畫合作，配合 520 世界蜜蜂日邀請講師進行蜜蜂與蜂蜜的知識分享，並以不同種類的蜂蜜為材料設計並製作多道蜂蜜料理，同時讓參與者品嚐比較不同蜂蜜的風味差異。</p><p>結合知識傳遞與飲食體驗，是異饗食堂與校外資源連結的代表活動。</p>`,
+      chips:['跨單位合作','活動策劃','飲食創作'],
+      imgs:[{src:'bee1',cap:'活動現場'},{src:'bee2',cap:'蜂蜜料理'},{src:'bee3',cap:'活動紀錄'}] },
+
+    { id:'w5', tag:'每週實作', title:'廚藝研習', brief:'每週成員自選料理實作，以當季食材為發想',
+      bg:'var(--amber)', emoji:'⬡', year:'2023–2025', role:'帶領、參與',
+      desc:`<p>異饗食堂每週固定的廚藝實作課程，成員自選有興趣的料理進行練習，有時配合當季食材發想，例如草莓季甜點、秋季根莖類料理等。</p><p>在實作過程中累積對食材、烹飪技法與擺盤美感的理解，也是「異饗小廚房」IG 系列的素材來源。</p>`,
+      chips:['烹飪實作','當季食材','技法練習'],
+      imgs:[{src:'kitch1',cap:'草莓季甜點塔'},{src:'kitch2',cap:'草莓瑞士卷'},{src:'kitch3',cap:'草莓奶油酥'}] },
+  ],
+
+  observer: [
+    { id:'o1', tag:'期末聲音策展', title:'《嚐聲》Déguster le Son', brief:'五人聯展，將聽覺轉譯為味覺體驗的沉浸式聲音裝置展',
+      bg:'var(--purple)', emoji:'◉', year:'2024', role:'策展人、創作者',
+      desc:`<p>觀察者 114 上學期期末成果展。以「聲音作為可被品嚐的物質」為核心概念，在政大山居學習中心藝廊展出五件聲音裝置與多媒材作品，展期一週。</p><p><strong>策展概念：</strong>聲音作為一種流動的物質，不可被擁有卻能被感知、被吞入——將聽覺視為味覺的延伸，每件作品皆是一道料理。</p><p><strong>觀展設計：</strong>入場附贈信封，內含花瓣（以花瓣詮釋作品風味）與空白菜單（以印章自由排列出屬於自己的《嚐聲》菜單），將觀展行為轉化為參與式體驗。</p><p><strong>負責事項：</strong>策展統籌、觀展說明書設計（含菜單、展品地圖）、IG 宣傳圖文、個人參展作品製作。</p><hr style="border:none;border-top:0.5px solid rgba(0,0,0,0.1);margin:1rem 0"><p><strong>個人參展作品：放逐自然</strong></p><p>探索光、水、線、自然與聲音之間的跨媒介關係，以接觸式麥克風呈現一個微型自然生態系統，再現下雨天的感官體驗。</p><p><strong>技術：</strong>接觸式麥克風貼附於塑膠、金屬、玻璃等不同材質，擷取水滴落在線網與材質上的細微震動，透過耳機擴大器放大後傳至耳機。</p>`,
+      chips:['策展統籌','觀展設計','文本撰寫','IG 宣傳','聲音裝置'],
+      series:[
+        {title:'放逐自然 — 趙于瑩（個人參展作品）'},
+        {title:'Minecraft is Music — 蔡聿謙'},
+        {title:"生成儀式 Eko-K'en — 陳鴻杰"},
+        {title:'聲之間 — 林思莉'},
+        {title:'SAI, BO · 足跡 — 王肇涵'},
+      ],
+      imgs:[{src:'ts1',cap:'展場紀錄'},{src:'ts2',cap:'展場紀錄'},{src:'ts3',cap:'展場紀錄'}] },
+
+    { id:'o2', tag:'工作坊', title:'感官與敘事工作坊：氣味、書寫與記憶', brief:'以嗅覺為媒介，結合擴香石製作與自由書寫的兩週工作坊',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'企劃、主持',
+      desc:`<p>觀察者 114 下學期「五感」主題的工作坊，共兩週各 2.5 小時，10 人參與。</p><p><strong>核心概念：</strong>透過嗅覺作為記憶與情感的媒介，以書寫讓參與者梳理自己的情緒與記憶，調配出有故事性的記憶香氛，並製作擴香石作為氣味傳播的媒介。</p><p><strong>第一週：</strong>從心理學與生理層面切入嗅覺與個人記憶的連結，分享自由書寫的經驗與方法後帶領實際體驗。接著進行擴香石製作——不只是調配與灌模，也讓大家在書寫後以繪畫、裝飾的方式留下屬於自己的痕跡。</p><p><strong>第二週：</strong>介紹 18 種精油，讓大家逐一試聞並討論氣味印象。接著進行氣味聯想活動，搭配自由書寫寫下屬於這瓶香氛的故事。最後進行香氛噴霧與精油調配教學，讓每位參與者帶走一瓶屬於自己的氣味。</p>`,
+      chips:['工作坊設計','感官體驗','書寫引導','香氛製作'],
+      imgs:[{src:'ws1',cap:'工作坊現場'},{src:'ws2',cap:'工作坊現場'},{src:'ws3',cap:'工作坊現場'}] },
+
+    { id:'o3', tag:'田野踏查', title:'C-LAB 聲響藝術節：社子島《中陰洄游》', brief:'帶領觀察者成員以聆聽、記錄與漫遊的方式進行現地聲景感知',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'課程設計、帶領者',
+      desc:`<p>2025 年 10 月 31 日，帶領觀察者成員參與 C-LAB 聲響藝術節《中陰洄游》——一場結合地景徒步繞行、行為藝術、現場聲響演出與電影放映的戶外事件策展計畫，在社子島全程戶外發生。</p><p><strong>白天：</strong>以散步、聆聽、記錄的方式在社子島進行現地聲景感知，跟隨行為藝術家漫遊沙洲、河岸、工業區、民宅巷弄等不同質地的空間，藉由觀察自然聲、城市機械聲與人為聲音，理解聲音如何形塑空間氛圍。</p><p><strong>夜晚：</strong>於島頭公園欣賞《河鰻》現場聲響版演出，並觀賞電影與導演朱駿騰的映後座談，共同思考聲音與影像如何跨越語言，轉化為情感性的經驗。</p>`,
+      chips:['田野踏查','聲景感知','地景走讀','C-LAB','課程設計'],
+      imgs:[{src:'clab1',cap:'C-LAB 聲響藝術節'},{src:'clab2',cap:'社子島行為藝術現場'},{src:'clab3',cap:'映後座談'}] },
+
+    { id:'o4', tag:'期末展覽', title:'五感期末展（114下）', brief:'以五感為核心的學期末成果展，目前籌備中',
+      bg:'var(--purple)', emoji:'◉', year:'2025', role:'策展人',
+      desc:`<p>觀察者 114 下學期期末成果展，以「五感」為主題，每位成員負責一種感官進行創作，共同呈現跨感官的沉浸式展覽體驗。</p><p>（展覽籌備中，詳細內容即將更新。）</p>`,
+      chips:['策展統籌','五感','籌備中'],
+      imgs:[] },
+  ],
+
+  shuyuan_events: [
+    { id:'se1', tag:'活動統籌', title:'113 新生書院說明會｜探所未知：九界歷險', brief:'以北歐神話九個世界對應九大學習計畫，70 人規模的說明會，擔任活動總召',
+      bg:'var(--green)', emoji:'◎', year:'2024', role:'活動總召、美宣統籌',
+      desc:`<p>擔任 113 學年度政大新生書院說明會的活動總召，統籌美宣、機動、活動三組共 18 位工作人員，於 9 月 12 日在山居學習中心舉辦，參與新生約 70 人。</p><p><strong>主題發想：</strong>以北歐神話的九個世界為框架，將九個自主學習計畫各自對應一個神話國度——異饗食堂是火之國穆斯貝爾海姆、觀察者是侏儒家園尼德威阿爾，每個計畫都有專屬的吉祥物與簡報配色設計。</p><p><strong>統籌內容：</strong>從 7 月初與老師討論主題開始，歷經多次會議、分工規劃、小家活動設計、宣傳圖文製作，到彩排與正式活動執行。同時負責美宣組的主視覺與整體視覺風格統籌。</p><p><strong>創意設計：</strong>報到環節設計以「抽球選小家」的方式分組，並設計 MBTI 風格的心理測驗問卷，協助新生依興趣找到最適合的學習計畫。</p>`,
+      chips:['活動總召','主視覺設計','統籌規劃','70人活動','北歐神話主題'],
+      imgs:[] },
+
+    { id:'se2', tag:'活動參與', title:'書院活動籌辦紀錄', brief:'112–114 學年度參與新生歡迎式、招新說明會、結業式等書院活動籌辦',
+      bg:'var(--green)', emoji:'◎', year:'2023–2025', role:'籌辦參與',
+      desc:`<p>三年間持續參與政大新生書院的各大活動籌辦，包含：</p><p><strong>新生歡迎式</strong> — 每學年迎接新進成員的開幕儀式，協助活動規劃與現場執行。</p><p><strong>學習計畫說明會</strong> — 向新生介紹各自主學習計畫，負責計畫的宣傳呈現與現場引導。</p><p><strong>Tutor 招新說明會</strong> — 吸引有意擔任 Tutor 的同學加入，協助說明計畫內容與 Tutor 角色。</p><p><strong>結業式</strong> — 學年末的成果發表與感謝活動，協助統籌流程與現場佈置。</p>`,
+      chips:['活動籌辦','新生歡迎式','說明會','結業式'],
+      imgs:[] },
+  ],
+
+  design: [
+    { id:'d1', tag:'Instagram 社群經營', title:'新生書院 IG', brief:'政大新生書院自主學習計畫的官方 Instagram 經營',
+      bg:'var(--blue)', emoji:'✦', year:'2023–2025', role:'社群經營、視覺設計',
+      desc:`<p>負責政大新生書院自主學習計畫 Instagram 帳號的社群經營，涵蓋活動宣傳、課程紀錄與期末成果發佈。</p><p>從視覺風格的規劃到每篇貼文的排版設計，維持帳號整體的一致性與可讀性，讓不同計畫的成果都能被清楚呈現。</p>`,
+      chips:['Instagram','社群經營','視覺設計','活動宣傳'],
+      link:'https://www.instagram.com/nccu.freshman/?hl=zh-tw',
+      imgs:[] },
+
+    { id:'d2', tag:'Instagram 社群經營', title:'異饗食堂 IG', brief:'飲食創作計畫的主視覺設計與社群經營',
+      bg:'var(--blue)', emoji:'✦', year:'2023–2024', role:'主視覺設計、社群經營、文案',
+      desc:`<p>負責異饗食堂 Instagram 帳號的主視覺設計與社群經營。每次活動皆設計對應的宣傳圖文，從色調、排版到文案一手包辦，建立異饗食堂一致的視覺識別。</p><p>同時企劃並執行「異饗小廚房」系列推文，每集記錄成員的廚藝研習過程，整合料理攝影、食譜步驟與心得文字，累積帳號的內容深度。</p>`,
+      chips:['Instagram','主視覺設計','社群經營','文案','異饗小廚房'],
+      link:'https://www.instagram.com/wonder_restaurant.nccu/?hl=zh-tw',
+      imgs:[] },
+
+    { id:'d3', tag:'Instagram 社群經營', title:'觀察者 IG', brief:'聲音創作學習計畫的 Instagram 宣傳與記錄',
+      bg:'var(--blue)', emoji:'✦', year:'2024–2025', role:'社群經營、視覺設計',
+      desc:`<p>負責觀察者 Instagram 帳號的社群經營，記錄每週課程活動與工作坊，並策劃期末策展《嚐聲》的系列宣傳圖文。</p><p>視覺設計以聲音與感官為核心意象，風格呼應觀察者的創作脈絡，在宣傳的同時也讓帳號本身成為計畫理念的延伸。</p>`,
+      chips:['Instagram','社群經營','視覺設計','策展宣傳'],
+      link:'https://www.instagram.com/the_audiences.prod/?hl=zh-tw',
+      imgs:[] },
+  ],
+
+  interview: [
+    { id:'i1', tag:'影音專題', title:'匠心不滅刻木成神　技藝交融續創新生', brief:'走進永和銀祥雕刻社，記錄傳統佛像木雕工藝的傳承與創新',
+      bg:'var(--amber)', emoji:'◎', year:'2025', role:'採訪、剪輯',
+      desc:`<p>走進新北市永和區的銀祥雕刻社，採訪負責人林麗芳與林孟藏，記錄一門延續三十五年的佛像木雕技藝。</p><p>從一塊木頭到構圖、雕刻、上色，最後成為廟宇中的神像——這篇報導試圖讓更多人看見這個通常被忽略的工藝現場。</p><p>銀祥不只做傳統莊嚴的神像，也雕刻姿態活潑、深受年輕人喜愛的神明造型，並提供不同尺寸的訂製服務，讓老技藝有了新的受眾。</p><p>報導中也問及師傅對雷射雕刻、3D 列印等科技工法的看法。林麗芳表示並不反對科技，但認為機器目前仍少了手工的「生命力」——當科技可以複製形，手的溫度是否仍不可取代？</p><p>課堂作業完成後投稿 PeoPo 公民新聞，後登上公視的公民新聞網。負責與同學共同採訪、討論報導方向，並擔任影片剪輯。</p>`,
+      chips:['影音採訪','剪輯','公民新聞','文化工藝'],
+      link:'https://www.peopo.org/news/813249',
+      imgs:[{src:'iv1',cap:'採訪現場'},{src:'iv2',cap:'採訪現場'},{src:'iv3',cap:'採訪現場'}] },
+
+    { id:'i2', tag:'影音專題', title:'永樂布行新風貌　傳承與創意共生', brief:'深入大稻埕永樂市場，記錄布二代如何用新方式延續布的生命',
+      bg:'var(--amber)', emoji:'◎', year:'2025', role:'企劃發想、組長、採訪、剪輯',
+      desc:`<p>大稻埕永樂市場曾是台灣最重要的布料集散地，街巷布行林立，是世代交織的記憶。隨著時代更迭，傳統布市逐漸沉寂，但仍有「布二代」選擇留下，嘗試用新的方式讓布的光澤再次閃爍。</p><p>專題採訪兩個截然不同的經營模式：「針線勤」創辦人李姵儒從職場回到大稻埕創業，強調設計與客製化體驗；「冠輝布行」則透過社群短影音讓年輕人重新看見傳統布行，以影像的語言傳遞「溫度」。</p><p>兩者都走過相似的路——被質疑、被不看好，卻選擇堅持。專題試圖呈現的，是世代之間語言的差異，以及真正的傳承或許不是模仿，而是自我的堅持。</p><p>此專題為課堂作業，主題由我提出，並擔任組長統籌採訪企劃與內容主旨，帶領組員拍攝兩位受訪者與大量現場素材，最後各自獨立剪輯成片。</p>`,
+      chips:['影音專題','企劃','採訪','剪輯','組長','大稻埕'],
+      link:'https://youtu.be/LAZyHDnT2L8',
+      imgs:[{src:'yl1',cap:'永樂市場採訪現場'},{src:'yl2',cap:'永樂市場採訪現場'},{src:'yl3',cap:'永樂市場採訪現場'}] },
+  ],
+
+  audio: [
+    { id:'a1', tag:'聲音裝置', title:'放逐自然', brief:'以水、線、光為材料的跨媒介聲音裝置，呈現微型自然生態系統',
+      bg:'var(--pink)', emoji:'♪', year:'2025', role:'創作、製作（與陳虹樺、吳宏宇合作）',
+      desc:`<p>靈感來自午覺睡醒後的一個平凡日子——窗外有些小雨，光從百葉窗間溢入，睡眼惺忪中將光粒子視作絲線，又像是沾了雨水而反光的蜘蛛絲。</p><p>作品探索光、水、線、自然與聲音之間的跨媒介關係，呈現一個「微型自然生態系統」，以簡單的物理方式再現下雨天的感官體驗。水滴沿線段滑行，途中改變線的張力，落下後在玻璃、金屬、塑膠等不同材質表面產生各異的聲響。</p><p>作品的核心在於隨機性——水滴的落點、水在線上的走向、聲音的生成，每一次都是唯一且無法複製的，如同自然界的有機變化。</p><p>此作品同時於觀察者期末聲音策展《嚐聲》中展出。</p>`,
+      chips:['聲音裝置','接觸式麥克風','跨媒介','物理聲響','隨機性'],
+      imgs:[] },
+
+    { id:'a2', tag:'劇場展演', title:'聲軌 114-1', brief:'廣電系聲音藝術課程三年總結展演，結合音樂、人聲、舞者與劇場的現場演出',
+      bg:'var(--pink)', emoji:'♪', year:'2025', role:'鋼琴演奏',
+      link:'https://rtv.nccu.edu.tw/PageDoc/Detail?fid=2025&id=38046',
+      desc:`<p>廣電系「聲音藝術與錄音工程」課程三年總結展演，2025 年 12 月於廣電系展演廳演出兩個晚上。展演同時呈現 12 件課程創作，以及一個結合音樂、人聲、電聲、錄放、舞者與劇場的大型聯合演出。</p><p>擔任鋼琴演奏，負責多個段落的現場演奏，涵蓋機率音樂、無調性音樂，以及老師編排的荀白克、蕭邦、莫札特、巴哈片段，同時擔任歌者的無調性鋼琴伴奏。</p>`,
+      chips:['鋼琴演奏','劇場','機率音樂','無調性','現場演出'],
+      imgs:[{src:'sv1',cap:'聲軌114-1展演現場'},{src:'sv2',cap:'聲軌114-1展演現場'},{src:'sv3',cap:'聲軌114-1展演現場'}] },
+  ],
+
+  curation: [
+    { id:'c1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待',
+      bg:'var(--coral)', emoji:'◈', year:'', role:'',
+      desc:'<p>此作品正在整理中，敬請期待。</p>',
+      imgs:[] },
+  ],
+
+  music: [
+    { id:'m1', tag:'合唱團員', title:'112學年度文化盃', brief:'廣電系合唱團員，奪得冠軍',
+      bg:'var(--green)', emoji:'♩', year:'2023', role:'合唱團員',
+      desc:`<p>以傳播學院身份參加第57屆政大文化盃系際合唱比賽，是加入政大後第一個大型校級活動。</p><p>在學長姐帶領下進行聲部練習，延續過去從小加入合唱團的經驗。</p><p><strong>成績：</strong>冠軍 🏆</p>`,
+      chips:['合唱','聲部練習'],
+      imgs:[] },
+
+    { id:'m2', tag:'指揮 · 教學', title:'113學年度文化盃', brief:'首次擔任指揮，同時負責聲音詮釋教學，獲季軍',
+      bg:'var(--green)', emoji:'♩', year:'2024', role:'指揮、聲音詮釋教學',
+      desc:`<p>首次擔任廣電系文化盃指揮，從選曲、編排到帶領每次練習，全程負責音樂方向的規劃與執行。</p><p>除了指揮角色，也承擔教學任務——帶領系上同學理解歌曲詮釋、聲部融合與情感表達，讓不同音樂背景的成員都能進入狀態。</p><p><strong>成績：</strong>季軍 🥉</p>`,
+      chips:['指揮','聲音詮釋教學','選曲','聲部帶領'],
+      imgs:[] },
+
+    { id:'m3', tag:'鋼琴伴奏 · 教學', title:'114學年度文化盃', brief:'擔任鋼琴伴奏，同時負責伴奏教學，獲季軍',
+      bg:'var(--green)', emoji:'♩', year:'2025', role:'鋼琴伴奏、教學',
+      desc:`<p>擔任廣電系文化盃鋼琴伴奏，負責自選曲的鋼琴伴奏演出，並在練習階段帶領成員理解如何與鋼琴配合。</p><p>同時擔任教學角色，與指揮共同協助成員掌握樂曲的精準度與熟練度，讓合唱與鋼琴、肢體動作與服裝設計之間呈現完整的舞台。</p><p><strong>成績：</strong>季軍 🥉</p>`,
+      chips:['鋼琴伴奏','教學','節奏引導'],
+      imgs:[{src:'mc1',cap:'114文化盃演出'},{src:'mc2',cap:'114文化盃演出'},{src:'mc3',cap:'114文化盃演出'}] },
+  ],
+
 };
 
 function showOnly(id) {
@@ -870,13 +580,14 @@ function goDetail(cat, id) {
   }
   if (w.series && w.series.length) {
     html += `<hr class="dv"><div class="section-sub">作品 / 系列</div><div class="series-list">`;
-    html += w.series.map((s, i) =>
-      `<div class="series-item">
-        <div class="series-num">${String(i+1).padStart(2,'0')}</div>
-        <div class="series-title">${s.title}</div>
-      </div>`
-    ).join('');
+    html += w.series.map((s,i) => `<div class="series-item"><div class="series-num">${String(i+1).padStart(2,'0')}</div><div class="series-title">${s.title}</div></div>`).join('');
     html += `</div>`;
+  }
+  if (w.link) {
+    const isVideo = w.link.includes('youtu');
+    const isIG = w.link.includes('instagram');
+    const label = isVideo ? '▶ 觀看影片' : isIG ? '↗ 前往 Instagram' : '↗ 查看完整報導';
+    html += `<hr class="dv"><a href="${w.link}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);text-decoration:none;border:0.5px solid var(--border2);border-radius:100px;padding:6px 14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border2)'">${label}</a>`;
   }
   if (w.imgs) {
     html += `<hr class="dv"><div class="section-sub">影像紀錄</div><div class="img-grid">`;
@@ -884,16 +595,9 @@ function goDetail(cat, id) {
       html += `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>影像即將更新</span></div>`;
     } else {
       html += w.imgs.map(img => {
-        if (typeof img === 'object') {
-          const src = IMG[img.src];
-          if (src) {
-            return `<div class="img-slot real" onclick="openLightbox('${img.src}')" style="cursor:pointer;padding:0;overflow:hidden;border-style:solid;border-color:var(--border)">
-              <img src="${src}" alt="${img.cap}" style="width:100%;height:100%;object-fit:cover">
-            </div>`;
-          }
-          return `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>${img.cap}</span></div>`;
-        }
-        return `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>${img}</span></div>`;
+        const src = IMG[img.src];
+        if (src) return `<div class="img-slot real" onclick="openLightbox('${img.src}')" style="cursor:pointer;padding:0;overflow:hidden;border-style:solid;border-color:var(--border)"><img src="${src}" alt="${img.cap}" style="width:100%;height:100%;object-fit:cover"></div>`;
+        return `<div class="img-slot"><span style="font-size:18px;opacity:.25">▣</span><span>${img.cap}</span></div>`;
       }).join('');
     }
     html += `</div>`;
@@ -903,167 +607,27 @@ function goDetail(cat, id) {
   showOnly('screen-detail');
 }
 
-
-const CATS = {
-  wonder:   { title:'異饗食堂', desc:'以「餐廳」作為容器的飲食創作計畫。不只是出餐，每次都有主題活動，將烹飪、策展思維、社群經營融為一體。每學期約十場活動，負責主視覺設計、IG 圖文宣傳、菜單規劃與現場執行。', parent:'shuyuan' },
-  observer: { title:'觀察者', desc:'以聲音為核心的自主學習計畫。帶領五位成員從認識聲音、田野錄音、聲音剪輯，走向期末策展與個人創作，同時設計並主持跨感官主題工作坊。', parent:'shuyuan' },
-  design:   { title:'平面設計', desc:'海報、品牌識別、排版等視覺設計作品。', parent:'home' },
-  interview:{ title:'採訪', desc:'文字與音頻採訪，記錄不同的生命故事。', parent:'home' },
-  audio:    { title:'聲音作品', desc:'Podcast、聲景紀錄與聲音裝置。', parent:'home' },
-  curation: { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
-  music:    { title:'文化盃合唱', desc:'政大系際合唱比賽，每年12月在四維堂舉辦，是幾乎每位政大人的共同記憶。三年從廣電系合唱團員，走向指揮、鋼琴伴奏，並擔任統籌教學的角色。', parent:'home' },
-};
-
-const WORKS = {
-  wonder: [
-    {
-      id:'w1', tag:'飲食創作', title:'秋季甜點企劃', brief:'以秋季食材為題的甜點餐盒，出餐 60 份以上',
-      bg:'var(--amber)', emoji:'⬡', year:'2023', role:'發想、烹飪、宣傳設計',
-      desc:`<p>以秋季常見食材作為創作主軸，企劃並製作一套完整的甜點餐盒，從選材發想到製作出餐全程負責。</p><p><strong>菜單：</strong>桂花糕、栗子酥、桂花蘋果乳酪塔、抹茶栗子磅蛋糕、田園雞肉咖哩飯。</p><p>共出餐 60 份以上，同步設計 IG 宣傳圖文進行推廣。</p>`,
-      chips:['菜單發想','烹飪製作','IG 視覺設計','出餐執行'],
-      imgs:[{src:'aut1',cap:'秋季甜點餐盒'},{src:'aut2',cap:'甜點製作過程'},{src:'aut3',cap:'抹茶栗子磅蛋糕備料'}]
-    },
-    {
-      id:'w2', tag:'系列推文', title:'異饗小廚房', brief:'每月廚藝研習的紀錄製作，整合攝影、食譜與文字',
-      bg:'var(--amber)', emoji:'⬡', year:'2023–2024', role:'企劃、攝影、文案、視覺設計',
-      desc:`<p>每個月成員各自練習一道料理，在製作期間與完成後進行完整紀錄，製作成系列 IG 推文。</p><p><strong>每篇推文包含：</strong>料理照片（美感構圖）、食譜步驟、製作心得與文字敘述。負責統籌整個系列的視覺風格與內容架構。</p>`,
-      chips:['企劃統籌','攝影','文案撰寫','IG 視覺'],
-      imgs:[{src:'ig1',cap:'異饗小廚房｜草莓季廚藝心得'},{src:'ig2',cap:'異饗小廚房第二集｜墨西哥玉米片'},{src:'ig3',cap:'異饗小廚房第四集｜上海生煎包'}]
-    },
-    {
-      id:'w3', tag:'主題活動', title:'茶料理企劃', brief:'走訪茶行，以不同茶種為靈感發展創意料理',
-      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'企劃、執行',
-      desc:`<p>帶領成員前往茶行實地參訪，聽取不同茶種的介紹與風味說明，回來後各自選用一種茶作為料理發想，實際製作成一系列茶料理。</p><p>從體驗設計到料理發想，整合了田野參訪與飲食創作的思維。</p>`,
-      chips:['活動規劃','田野參訪','料理創作'],
-      imgs:[{src:'tea1',cap:'茶料理成品'},{src:'tea2',cap:'料理製作過程'},{src:'tea3',cap:'活動紀錄'}]
-    },
-    {
-      id:'w4', tag:'跨界合作', title:'USR × 世界蜜蜂日', brief:'結合 520 世界蜜蜂日，與 USR 計畫合作的蜂蜜料理活動',
-      bg:'var(--amber)', emoji:'⬡', year:'2024', role:'共同策劃、執行',
-      desc:`<p>與校內 USR 計畫合作，配合 520 世界蜜蜂日邀請講師進行蜜蜂與蜂蜜的知識分享，並以不同種類的蜂蜜為材料設計並製作多道蜂蜜料理，同時讓參與者品嚐比較不同蜂蜜的風味差異。</p><p>結合知識傳遞與飲食體驗，是異饗食堂與校外資源連結的代表活動。</p>`,
-      chips:['跨單位合作','活動策劃','飲食創作'],
-      imgs:[{src:'bee1',cap:'活動現場'},{src:'bee2',cap:'蜂蜜料理'},{src:'bee3',cap:'活動紀錄'}]
-    },
-    {
-      id:'w5', tag:'每週實作', title:'廚藝研習', brief:'每週成員自選料理實作，以當季食材為發想',
-      bg:'var(--amber)', emoji:'⬡', year:'2023–2025', role:'帶領、參與',
-      desc:`<p>異饗食堂每週固定的廚藝實作課程，成員自選有興趣的料理進行練習，有時配合當季食材發想，例如草莓季甜點、秋季根莖類料理等。</p><p>在實作過程中累積對食材、烹飪技法與擺盤美感的理解，也是「異饗小廚房」IG 系列的素材來源。</p>`,
-      chips:['烹飪實作','當季食材','技法練習'],
-      imgs:[{src:'kitch1',cap:'草莓季甜點塔'},{src:'kitch2',cap:'草莓瑞士卷'},{src:'kitch3',cap:'草莓奶油酥'}]
-    },
-  ],
-  observer: [
-    {
-      id:'o1', tag:'期末聲音策展', title:'《嚐聲》Déguster le Son', brief:'五人聯展，將聽覺轉譯為味覺體驗的沉浸式聲音裝置展',
-      bg:'var(--purple)', emoji:'◉', year:'2024', role:'策展人、創作者',
-      desc:`<p>觀察者 114 上學期期末成果展。以「聲音作為可被品嚐的物質」為核心概念，在政大山居學習中心藝廊展出五件聲音裝置與多媒材作品，展期一週。</p><p><strong>策展概念：</strong>聲音作為一種流動的物質，不可被擁有卻能被感知、被吞入——將聽覺視為味覺的延伸，每件作品皆是一道料理。</p><p><strong>觀展設計：</strong>入場附贈信封，內含花瓣（以花瓣詮釋作品風味）與空白菜單（以印章自由排列出屬於自己的《嚐聲》菜單），將觀展行為轉化為參與式體驗。</p><p><strong>負責事項：</strong>策展統籌、觀展說明書設計（含菜單、展品地圖）、IG 宣傳圖文、個人參展作品製作。</p><hr style="border:none;border-top:0.5px solid rgba(0,0,0,0.1);margin:1rem 0"><p><strong>個人參展作品：放逐自然</strong></p><p>探索光、水、線、自然與聲音之間的跨媒介關係，以接觸式麥克風呈現一個微型自然生態系統，再現下雨天的感官體驗。</p><p><strong>創作核心：</strong>探討人造物與「自然」的關係——當人造物被廢棄，是否就成為自然的一部分？</p><p><strong>技術：</strong>接觸式麥克風貼附於塑膠、金屬、玻璃等不同材質，擷取水滴落在線網與材質上的細微震動，透過耳機擴大器放大後傳至耳機，讓觀眾聆聽作品內部的微觀聲響。</p>`,
-      chips:['策展統籌','觀展設計','文本撰寫','IG 宣傳','聲音裝置','接觸式麥克風'],
-      series:[
-        {title:'放逐自然 — 趙于瑩（個人參展作品）'},
-        {title:'Minecraft is Music — 蔡聿謙'},
-        {title:"生成儀式 Eko-K'en — 陳鴻杰"},
-        {title:'聲之間 — 林思莉'},
-        {title:'SAI, BO · 足跡 — 王肇涵'},
-      ],
-      imgs:[{src:'ts1',cap:'展場紀錄'},{src:'ts2',cap:'展場紀錄'},{src:'ts3',cap:'展場紀錄'}]
-    },
-    {
-      id:'o3', tag:'工作坊', title:'感官與敘事工作坊：氣味、書寫與記憶', brief:'以嗅覺為媒介，結合擴香石製作與自由書寫的兩週工作坊',
-      bg:'var(--purple)', emoji:'◉', year:'2025', role:'企劃、主持',
-      desc:`<p>觀察者 114 下學期「五感」主題的工作坊，共兩週各 2.5 小時，10 人參與。</p><p><strong>核心概念：</strong>透過嗅覺作為記憶與情感的媒介，以書寫讓參與者梳理自己的情緒與記憶，調配出有故事性的記憶香氛，並製作擴香石作為氣味傳播的媒介。</p><p><strong>第一週：</strong>從心理學與生理層面切入嗅覺與個人記憶的連結，分享自由書寫的經驗與方法後帶領實際體驗。接著進行擴香石製作——不只是調配與灌模，也讓大家在書寫後以繪畫、裝飾的方式留下屬於自己的痕跡。</p><p><strong>第二週：</strong>介紹 18 種精油，讓大家逐一試聞並討論氣味印象。接著進行氣味聯想活動，搭配自由書寫寫下屬於這瓶香氛的故事。最後進行香氛噴霧與精油調配教學，讓每位參與者帶走一瓶屬於自己的氣味。</p>`,
-      chips:['工作坊設計','感官體驗','書寫引導','香氛製作'],
-      imgs:[{src:'ws1',cap:'工作坊現場'},{src:'ws2',cap:'工作坊現場'},{src:'ws3',cap:'工作坊現場'}]
-    },
-    {
-      id:'o4', tag:'田野踏查 · 聲景感知', title:'C-LAB 聲響藝術節：社子島《中陰洄游》', brief:'帶領觀察者成員以聆聽、記錄與漫遊的方式進行現地聲景感知',
-      bg:'var(--purple)', emoji:'◉', year:'2025', role:'課程設計、帶領者',
-      desc:`<p>2025 年 10 月 31 日，帶領觀察者成員參與 C-LAB 聲響藝術節《中陰洄游》——一場結合地景徒步繞行、行為藝術、現場聲響演出與電影放映的戶外事件策展計畫，在社子島全程戶外發生。</p><p><strong>白天：</strong>以散步、聆聽、記錄的方式在社子島進行現地聲景感知，跟隨行為藝術家漫遊沙洲、河岸、工業區、民宅巷弄等不同質地的空間，藉由觀察自然聲、城市機械聲與人為聲音，理解聲音如何形塑空間氛圍。</p><p><strong>夜晚：</strong>於島頭公園欣賞《河鰻》現場聲響版演出，並觀賞電影《河鰻》與導演朱駿騰的映後座談，共同思考聲音與影像如何跨越語言、可見性與敘事，轉化為情感性的經驗。</p><p><strong>課程意義：</strong>這次田野是課程設計的一部分——在嘗試過單純展演空間的聲音活動後，帶著成員走出去，在真實的地景中感知聲音，為期末展覽的概念發展提供靈感與參照。</p>`,
-      chips:['田野踏查','聲景感知','地景走讀','C-LAB 聲響藝術節','課程設計'],
-      imgs:[{src:'clab1',cap:'C-LAB 2025 聲響藝術節 DIVERSONICS'},{src:'clab2',cap:'社子島社六濕地行為藝術現場'},{src:'clab3',cap:'島頭公園映後座談｜導演朱駿騰'}]
-    },
-    {
-      id:'o5', tag:'期末展覽', title:'五感期末展（114下）', brief:'以五感為核心的學期末成果展，目前籌備中',
-      bg:'var(--purple)', emoji:'◉', year:'2025', role:'策展人',
-      desc:`<p>觀察者 114 下學期期末成果展，以「五感」為主題，每位成員負責一種感官進行創作，共同呈現跨感官的沉浸式展覽體驗。</p><p>（展覽籌備中，詳細內容即將更新。）</p>`,
-      chips:['策展統籌','五感','籌備中'],
-      imgs:[]
-    },
-  ],
-  design: [
-    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--blue)', emoji:'✦', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
-  ],
-  interview: [
-    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--amber)', emoji:'◎', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
-  ],
-  audio: [
-    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--pink)', emoji:'♪', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
-  ],
-  photo: [
-    { id:'_1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待', bg:'var(--purple)', emoji:'▣', year:'', role:'', desc:'<p>此作品正在整理中，敬請期待。</p>', imgs:[] },
-  ],
-  curation: [
-    {
-      id:'c1', tag:'策展', title:'餘燼之後 ── 廢墟美學展', brief:'六人聯展的策展與空間設計',
-      bg:'var(--coral)', emoji:'◈', year:'2024', role:'策展人、空間設計',
-      desc:'<p>策劃六位創作者參與的聯展，以廢墟美學為核心，探討殘缺作為一種創作語言。策展工作包含主題發展、藝術家溝通、空間規劃、文本撰寫與開幕活動。</p>',
-      imgs:[]
-    },
-    {
-      id:'c2', tag:'跨媒介創作', title:'給城市的情書', brief:'文字、聲音與影像的三聯作',
-      bg:'var(--coral)', emoji:'◈', year:'2023', role:'創作、製作',
-      desc:'<p>以台北為對象創作的三件組作品，分別以文字散文、錄音、攝影三種媒介呈現同一個主題，探討媒介本身如何影響感知。</p>',
-      imgs:[]
-    },
-  ],
-  music: [
-    {
-      id:'m1', tag:'合唱團員', title:'112學年度文化盃', brief:'廣電系合唱團員，奪得冠軍',
-      bg:'var(--green)', emoji:'♩', year:'2023', role:'合唱團員',
-      desc:`<p>以傳播學院身份參加第57屆政大文化盃系際合唱比賽，是加入政大後第一個大型校級活動。</p><p>在學長姐帶領下進行聲部練習，延續過去從小加入合唱團的經驗。</p><p><strong>成績：</strong>冠軍 🏆</p>`,
-      chips:['合唱','聲部練習'],
-      imgs:[]
-    },
-    {
-      id:'m2', tag:'指揮 · 教學', title:'113學年度文化盃', brief:'首次擔任指揮，同時負責聲音詮釋教學，獲季軍',
-      bg:'var(--green)', emoji:'♩', year:'2024', role:'指揮、聲音詮釋教學',
-      desc:`<p>首次擔任廣電系文化盃指揮，從選曲、編排到帶領每次練習，全程負責音樂方向的規劃與執行。</p><p>除了指揮角色，也承擔教學任務——帶領系上同學理解歌曲詮釋、聲部融合與情感表達，讓不同音樂背景的成員都能進入狀態。</p><p><strong>成績：</strong>季軍 🥉</p>`,
-      chips:['指揮','聲音詮釋教學','選曲','聲部帶領'],
-      imgs:[]
-    },
-    {
-      id:'m3', tag:'鋼琴伴奏 · 教學', title:'114學年度文化盃', brief:'擔任鋼琴伴奏，同時負責伴奏教學，獲季軍',
-      bg:'var(--green)', emoji:'♩', year:'2025', role:'鋼琴伴奏、教學',
-      desc:`<p>擔任廣電系文化盃鋼琴伴奏，負責自選曲的鋼琴伴奏演出，並在練習階段帶領成員理解如何與鋼琴配合。</p><p>同時擔任教學角色，與指揮共同協助成員掌握樂曲的精準度與熟練度，讓合唱與鋼琴、肢體動作與服裝設計之間呈現完整的舞台。</p><p><strong>成績：</strong>季軍 🥉</p>`,
-      chips:['鋼琴伴奏','教學','節奏引導'],
-      imgs:[{src:'mc1',cap:'114文化盃演出'},{src:'mc2',cap:'114文化盃演出'},{src:'mc3',cap:'114文化盃演出'}]
-    },
-  ],
-};
-
 let lbImgs = [];
-let lbIdx = 0;
+let lbIdx  = 0;
 
 function openLightbox(srcKey) {
   const detailImgs = document.querySelectorAll('.img-slot.real img');
   lbImgs = Array.from(detailImgs).map(el => el.src);
-  const clickedSrc = IMG[srcKey];
-  lbIdx = lbImgs.findIndex(s => s === clickedSrc);
+  const clicked = IMG[srcKey];
+  lbIdx = lbImgs.findIndex(s => s === clicked);
   if (lbIdx < 0) lbIdx = 0;
   showLb();
   document.getElementById('lightbox').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
-
 function showLb() {
   document.getElementById('lb-img').src = lbImgs[lbIdx];
   document.getElementById('lb-counter').textContent = `${lbIdx+1} / ${lbImgs.length}`;
 }
-
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
   document.body.style.overflow = '';
 }
-
 function lbPrev() { lbIdx = (lbIdx - 1 + lbImgs.length) % lbImgs.length; showLb(); }
 function lbNext() { lbIdx = (lbIdx + 1) % lbImgs.length; showLb(); }
 
