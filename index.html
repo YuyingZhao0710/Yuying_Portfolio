@@ -180,12 +180,15 @@ footer { border-top: 0.5px solid var(--border); padding: 1.5rem 0; font-size: 10
         <div class="cat-title">聲音作品</div>
         <div class="cat-count">2 件作品 →</div>
       </div>
-      <div class="cat-card" onclick="goList('curation')">
-        <div class="cat-icon-wrap" style="background:var(--coral)">◈</div>
-        <div class="cat-meta">category 04</div>
-        <div class="cat-title">策展與創作</div>
-        <div class="cat-count">新增中 →</div>
-      </div>
+<div class="cat-card featured" onclick="goList('curation')" style="margin-top:0">
+  <div class="cat-icon-wrap">🌾</div>
+  <div class="featured-text">
+    <div class="cat-meta">教育部青年署 · 蹲點實作</div>
+    <div class="cat-title">青年署蹲點實作</div>
+    <div class="cat-subtitle">駐點草山好土氣一個月，從田調、採訪走向策展</div>
+    <div class="cat-count">115 年度 · 巫雲山莊 →</div>
+  </div>
+</div>
       <div class="cat-card" onclick="goList('music')">
         <div class="cat-icon-wrap" style="background:var(--green)">♩</div>
         <div class="cat-meta">category 05</div>
@@ -349,6 +352,9 @@ const IMG = {
   auig1:  REPO + '螢幕擷取畫面 2026-05-09 173355.png',
   auig2:  REPO + '螢幕擷取畫面 2026-05-09 173314.png',
   auig3:  REPO + '螢幕擷取畫面 2026-05-09 173139.png',
+  pm1:    REPO + '%E8%93%AC%E8%90%8A%E7%B1%B3%E7%89%B9%E5%B1%951.jpg',
+  pm2:    REPO + '%E8%93%AC%E8%90%8A%E7%B1%B3%E7%89%B9%E5%B1%952.jpg',
+  pm3:    REPO + '%E8%93%AC%E8%90%8A%E7%B1%B3%E7%89%B9%E5%B1%953.jpg',
 
 };
 
@@ -359,7 +365,7 @@ const CATS = {
   design:         { title:'社群經營', desc:'負責新生書院、異饗食堂與觀察者的 Instagram 社群經營，包含主視覺設計、圖文排版與內容規劃。', parent:'home' },
   interview:      { title:'專題採訪', desc:'以影音為媒介的深度專題採訪，從企劃、拍攝到剪輯，記錄不同的生命故事與文化現場。', parent:'home' },
   audio:          { title:'聲音作品', desc:'聲音裝置、劇場展演與錄音創作。', parent:'home' },
-  curation:       { title:'策展與創作', desc:'結合空間、文本與視覺的策展及跨媒介創作。', parent:'home' },
+ curation:        { title:'青年署蹲點實作', desc:'115 年度教育部青年署蹲點實作計畫，駐點陽明山草山好土氣工作室（巫雲山莊）一個月，從田野調查、文獻梳理走向策展實作。', parent:'home' },
   music:          { title:'文化盃合唱', desc:'政大系際合唱比賽，每年12月在四維堂舉辦，是幾乎每位政大人的共同記憶。三年從廣電系合唱團員，走向指揮、鋼琴伴奏，並擔任統籌教學的角色。', parent:'home' },
 };
 
@@ -498,12 +504,13 @@ const WORKS = {
       imgs:[{src:'sv1',cap:'聲軌114-1展演現場'},{src:'sv2',cap:'聲軌114-1展演現場'},{src:'sv3',cap:'聲軌114-1展演現場'}] },
   ],
 
-  curation: [
-    { id:'c1', tag:'即將更新', title:'（內容整理中）', brief:'敬請期待',
-      bg:'var(--coral)', emoji:'◈', year:'', role:'',
-      desc:'<p>此作品正在整理中，敬請期待。</p>',
-      imgs:[] },
-  ],
+curation: [
+  { id:'c1', tag:'微型策展', title:'蓬萊米百年微型策展', brief:'走訪陽明山復耕小農，梳理百年蓬萊米時間線，設計在地微型展覽',
+    bg:'var(--coral)', emoji:'🌾', year:'2026', role:'田野調查、採訪、文獻梳理、策展設計',
+    desc:`<p>今年是蓬萊米在台第一百周年。我們走訪陽明山不同農場，採訪不同年齡層正在復種稻米的在地農人，並大量閱讀一手、二手、官方與民間文獻，以時間序為主軸梳理出一條清晰的脈絡。</p><p>展覽呈現從日治時期竹子湖地區最初種植蓬萊米，到戰後轉作高山高麗菜，再進入精緻休閒農業（繡球花、海芋），最後是當代多元農業並存的現況。以竹仔湖地區及旁邊的大屯山、七星山、小觀音山為地景框架，製作了一個立體模型作為展示核心。</p><p>展覽在草山好土氣工作室的基地——台北市公告歷史建築「巫雲山莊」舉行，這棟以陽明山安山岩砌成的百年三合院，本身也是在地記憶的一部分。</p>`,
+    chips:['田野調查','採訪','文獻梳理','微型策展','蓬萊米','陽明山','地景模型'],
+    imgs:[{src:'pm1',cap:'蓬萊米百年特展'},{src:'pm2',cap:'蓬萊米百年特展'},{src:'pm3',cap:'蓬萊米百年特展'}] },
+],
 
   music: [
     { id:'m1', tag:'合唱團員', title:'112學年度文化盃', brief:'廣電系合唱團員，奪得冠軍',
